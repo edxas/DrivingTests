@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div class="header", style="
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+">
+    <h1>Preparation for driving test</h1>
+    <p>questions and answers</p>
+</div>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<div class="container my-2">
+
+    <h3>Question List</h3>
+
+    <table style="width:80%" border="1"
+           class = "table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Question</th>
+            <th>Answers</th>
+            <th>Correct Answer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question:${questions}">
+            <td th:text="${question.question}"></td>
+            <td th:text="${question.answers}"></td>
+            <td th:text="${question.correct_answers}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
