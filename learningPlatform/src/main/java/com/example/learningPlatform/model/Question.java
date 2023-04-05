@@ -6,31 +6,21 @@ import lombok.*;
 
 
 @Table(name = "question")
-@Data //no
 @Entity
-@NoArgsConstructor //no
-@AllArgsConstructor //no
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Question {
-    @Id //generated value strategy type indentity
-    //@Setter(value = AccessLevel.NONE)
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false, unique=true)
     private int id;
-    @Column(name = "Topic")
-    //@NotBlank(message = "Not blank")
+    @Column(name = "Topic", nullable = false, length = 25)
     private Topic topic = Topic.signs;
-    @Column(name = "Question")
-    @NotBlank(message = "Not blank")
-    //@Size(min = 3,max = 30, message = "Out of range min 3 un max 30")
-    //@Pattern(regexp = "[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*+[- ]{1}+[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*|[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*", message = "examples June or Mary Barbara")
+    @Column(name = "Question", nullable = false)
     private String question;
-    @Column(name = "Answers")
-    @NotBlank(message = "Not blank")
-    //@Size(min = 3,max = 30, message = "Out of range min 3 un max 30")
-    //@Pattern(regexp = "[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*+[- ]{1}+[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*|[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*", message = "examples Alien or Harding-Rolls")
+    @Column(name = "Answers", nullable = false)
     private String answers;
-    @Column(name = "CorrectAnswers")
-    @NotBlank(message = "Not blank")
-    //@Pattern(regexp = "^[a-zA-Z0-9]{5,16}", message = "From 6 to 16 numbers and alphabet")
+    @Column(name = "CorrectAnswers", nullable = false)
     private String correct_answers;
 }
