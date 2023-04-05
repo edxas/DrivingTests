@@ -36,7 +36,7 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
             Salt salt = new Salt(getSalt());
             String password1 = getSecurePassword(user.getPassword(), salt.getSalt());
 
-            userRepo.save(new Users(user.getName(), user.getSurname(), Role.user, user.getEmail(), user.getUsername(),password1, user.getPassword(),salt));
+            userRepo.save(new Users(user.getName(), user.getSurname(), Role.user.name(), user.getEmail(), user.getUsername(),password1, user.getPassword(),salt));
 
             return true;
         }

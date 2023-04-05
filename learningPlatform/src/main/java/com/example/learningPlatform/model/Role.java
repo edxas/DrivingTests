@@ -1,5 +1,5 @@
 package com.example.learningPlatform.model;
 
 public enum Role {
-    guest, user,admin
+    admin , user, guest
 }

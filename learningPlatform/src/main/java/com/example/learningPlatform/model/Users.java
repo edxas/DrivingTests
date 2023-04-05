@@ -28,7 +28,7 @@ public class Users {
     @Pattern(regexp = "[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*+[- ]{1}+[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*|[A-ZĀČĒĢĪĶĻŅŠŪŽ]{1}+[a-zāčēģīķļņšūž]*", message = "examples Alien or Harding-Rolls")
     private String surname;
     @Column(name = "Role")
-    private Role role ;
+    private String role ;
     @Column(name = "Email")
     @NotBlank(message = "Not blank")
     @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Can use alphabet, numbers and .-")
@@ -49,7 +49,7 @@ public class Users {
     @JoinColumn(name = "saltid", referencedColumnName = "id")
     private Salt salt;
 
-    public Users(String name, String surname, Role role, String email, String username, String hashPassword, String password, Salt salt) {
+    public Users(String name, String surname, String role, String email, String username, String hashPassword, String password, Salt salt) {
         this.email = email;
         this.name = name;
         this.password = password;
