@@ -1,30 +1,24 @@
 package com.example.learningPlatform.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
-@Table(name = "questions")
-@Data
+@Table(name = "question")
+@Data //no
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor //no
+@AllArgsConstructor //no
 public class Question {
-    @Id
+    @Id //generated value strategy type indentity
     //@Setter(value = AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false, unique=true)
     private int id;
     @Column(name = "Topic")
-    @NotBlank(message = "Not blank")
-    private Topic role = Topic.signs;
+    //@NotBlank(message = "Not blank")
+    private Topic topic = Topic.signs;
     @Column(name = "Question")
     @NotBlank(message = "Not blank")
     //@Size(min = 3,max = 30, message = "Out of range min 3 un max 30")

@@ -2,7 +2,6 @@ package com.example.learningPlatform.services;
 
 import com.example.learningPlatform.model.Question;
 import lombok.Data;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,5 +28,15 @@ public class QuestionService {
             return  list;
         }
         return questions;
+    }
+    public void addQuestion(Question incoming) {
+        LOG.info(String.valueOf(useData));
+        if (useData) {
+            LOG.info(
+                    dataService.save(incoming)
+                            .toString());
+            return;
+        }
+        questions.add(incoming);
     }
 }
