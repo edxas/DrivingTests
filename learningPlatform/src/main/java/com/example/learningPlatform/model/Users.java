@@ -1,22 +1,24 @@
 package com.example.learningPlatform.model;
 
 
+import com.example.learningPlatform.repo.IUserRepo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-
+@Table(name = "users")
 @Entity
 @Data
 @NoArgsConstructor
 public class Users {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(value = AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false, unique=true)
-    private long uid;
+    private long id ;
     @Column(name = "Name")
     @NotBlank(message = "Not blank")
     @Size(min = 3,max = 30, message = "Out of range min 3 un max 30")

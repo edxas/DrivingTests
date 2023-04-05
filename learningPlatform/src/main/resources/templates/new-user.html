@@ -21,38 +21,42 @@
 background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
 height: 100vh;
 ">
-  <div class="container justify-content-center bg-light" >
-    <form action="#" th:href="@{/newUser}"  method="post">
-      <table >
-        <tr>
-          <td>"Name:"</td>
-          <td><input type="text" th:field="*{users.name}" th:value="*{users.name}"/></td>
-          <td th:if="${#fields.hasErrors('users.name')}" th:errors="*{users.name}"></td>
-        </tr>
-        <tr>
-          <td>"Surname:"</td>
-          <td><input type="text" th:field="*{users.surname}" th:value="*{users.surname}"/></td>
-          <td th:if="${#fields.hasErrors('users.surname')}" th:errors="*{users.surname}"></td>
-        </tr>
-        <tr>
-          <td>"Email:"</td>
-          <td><input type="text" th:field="*{users.email}" th:value="*{users.email}"/></td>
-          <td th:if="${#fields.hasErrors('users.email')}" th:errors="*{users.email}"></td>
-        </tr>
-        <tr>
-          <td>"Username:"</td>
-          <td><input type="text" th:field="*{users.username}" th:value="*{users.username}"/></td>
-          <td th:if="${#fields.hasErrors('users.username')}" th:errors="*{users.username}"></td>
-        </tr>
-        <tr>
-          <td>"Password:"</td>
-          <td><input type="text" th:field="*{users.password}" th:value="*{users.password}"/></td>
-          <td th:if="${#fields.hasErrors('users.password')}" th:errors="*{users.password}"></td>
-        </tr>
-      </table>
-      <button name="reg" type="submit">Register</button>
+  <div class="vh-100 container  d-flex justify-content-center align-items-center  " >
+    <div class="rounded d-flex bg-light m-5 p-5">
+      <form action="#" th:href="@{/newUser}"  method="post">
+        <h3 class="text-center mb-3">Registration</h3>
+        <table class="text-primary">
+          <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{users.name}" th:value="*{users.name}"/></td>
+            <td th:if="${#fields.hasErrors('users.name')}" th:errors="*{users.name}"></td>
+          </tr>
+          <tr>
+            <td>Surname</td>
+            <td><input type="text" th:field="*{users.surname}" th:value="*{users.surname}"/></td>
+            <td th:if="${#fields.hasErrors('users.surname')}" th:errors="*{users.surname}"></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td><input type="text" th:field="*{users.email}" th:value="*{users.email}"/></td>
+            <td th:if="${#fields.hasErrors('users.email')}" th:errors="*{users.email}"></td>
+          </tr>
+          <tr>
+            <td>Username</td>
+            <td><input type="text" th:field="*{users.username}" th:value="*{users.username}"/></td>
+            <td th:if="${#fields.hasErrors('users.username')}" th:errors="*{users.username}"></td>
+          </tr>
+          <tr>
+            <td>Password</td>
+            <td><input type="text" th:field="*{users.password}" th:value="*{users.password}"/></td>
+            <td th:if="${#fields.hasErrors('users.password')}" th:errors="*{users.password}"></td>
+          </tr>
+        </table>
+        <button name="reg" class="btn btn-success" type="submit">Submit</button>
+        <button name="log" class="btn btn-outline-info" type="submit">Log In</button>
 
-    </form>
+      </form>
+    </div>
 
   </div>
 </body>

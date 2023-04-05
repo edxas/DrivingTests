@@ -6,6 +6,9 @@ import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.repo.ISaltRepo;
 import com.example.learningPlatform.repo.IUserRepo;
 import com.example.learningPlatform.service.IDrivingLearningPlatformService;
+import lombok.Data;
+import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,10 @@ import java.security.NoSuchAlgorithmException;
 import static com.example.learningPlatform.model.SHA512Hasher.*;
 
 @Service
+@Data
+@Slf4j
 public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlatformService {
+
 
     @Autowired
     IUserRepo userRepo;
@@ -27,17 +33,18 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
 
     @Override
     public boolean newUser(Users user) throws NoSuchAlgorithmException {
-
         Users users1 = userRepo.findByEmail(user.getEmail());
-
-
-        if(users1 ==null ){
-
+        Users users2 = userRepo.findByUsername(user.getUsername());
+        if(users1 ==null && users2 == null ){
+//            Salt salt = new Salt(getSalt());
+//            String password1 = getSecurePassword(user.getPassword(), salt.getSalt());
+//            userRepo.save(new Users(user.getName(), user.getSurname(), Role.user.name(), user.getEmail(), user.getUsername(),password1, user.getPassword(),salt));
+//            return true;
             Salt salt = new Salt(getSalt());
             String password1 = getSecurePassword(user.getPassword(), salt.getSalt());
-
-            userRepo.save(new Users(user.getName(), user.getSurname(), Role.user.name(), user.getEmail(), user.getUsername(),password1, user.getPassword(),salt));
-
+            LOG.info(
+                    userRepo.save(new Users(user.getName(), user.getSurname(), Role.user.name(), user.getEmail(), user.getUsername(),password1, user.getPassword(),salt))
+                            .toString());
             return true;
         }
         return false;

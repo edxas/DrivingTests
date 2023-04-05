@@ -2,6 +2,7 @@ package com.example.learningPlatform.controller;
 
 import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.service.IDrivingLearningPlatformService;
+import com.example.learningPlatform.service.impl.IDrivingLearningPlatformServiceImpl;
 import jakarta.servlet.ServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
 @Controller
 public class UserController {
     @Autowired
-    IDrivingLearningPlatformService drivingLearningPlatformService;
+    IDrivingLearningPlatformServiceImpl drivingLearningPlatformService;
 
     @GetMapping(value="/newUser")
     public String getAddUser(Users reader, Model model){

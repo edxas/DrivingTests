@@ -26,9 +26,10 @@ public class AuthoriseController {
     @PostMapping
     public  String setAuthorise(Users users, BindingResult result){
         if(drivingLearningPlatformService.authoriseUser(users.getUsername(), users.getPassword())){
-            long id = drivingLearningPlatformService.getAuthorisedUser().getUid();
-            return "redirect:/home/user/"+id;
+            long id = drivingLearningPlatformService.getAuthorisedUser().getId();
+            return "redirect:/home";
         }
+
         return "user-authorise";
     }
 
