@@ -1,6 +1,7 @@
 package com.example.learningPlatform.controllers;
 
 import com.example.learningPlatform.model.Question;
+import com.example.learningPlatform.model.Topic;
 import com.example.learningPlatform.services.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class QuestionController {
     @GetMapping("/addNewQuestion")
     public String createNewQuestion(Model model){
         model.addAttribute("question", new Question());
-        //service.addQuestion(question);
+        model.addAttribute("topics", Topic.values());
         return "questionAdd";
     }
     @PostMapping(value = "/addNewQuestion")

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 
-@Table(name = "question")
+@Table(name = "questions")
 @Entity
 @Data
 @NoArgsConstructor
@@ -16,7 +16,7 @@ public class Question {
     @Column(name = "id", updatable = false, nullable = false, unique=true)
     private int id;
     @Column(name = "Topic", nullable = false, length = 25)
-    private Topic topic = Topic.signs;
+    private String topic;
     @Column(name = "Question", nullable = false)
     private String question;
     @Column(name = "Answers", nullable = false)
