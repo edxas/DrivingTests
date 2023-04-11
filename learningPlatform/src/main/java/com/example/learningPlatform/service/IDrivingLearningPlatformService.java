@@ -13,4 +13,5 @@ public interface IDrivingLearningPlatformService {
     boolean newUser(Users users) throws NoSuchAlgorithmException;
     boolean authoriseUser(String email, String password);
     Users getAuthorisedUser();
+    void logOut();
 }

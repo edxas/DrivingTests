@@ -1,6 +1,7 @@
 package com.example.learningPlatform.controller;
 
 
+import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.service.IDrivingLearningPlatformService;
 import jakarta.servlet.ServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +18,28 @@ public class HomeController {
     IDrivingLearningPlatformService drivingLearningPlatformService;
 
     @GetMapping
-    public  String getHome( Model model){
+    public  String getHome(Users user, Model model){
+        user = drivingLearningPlatformService.getAuthorisedUser();
+
+        model.addAttribute("user",user);
         return "home";
     }
 
     @PostMapping
-    public  String setHome(ServletRequest request){
-        if(null != request.getParameter("logUP")){
+    public  String setHome(Users user,ServletRequest request, Model model){
+
+
+        if(null != request.getParameter("signUP")){
             return "redirect:/newUser";
         }
         if(null != request.getParameter("logIN")){
             return "redirect:/login";
+        }
+        if(null != request.getParameter("logOut")){
+            drivingLearningPlatformService.logOut();
+            user = drivingLearningPlatformService.getAuthorisedUser();
+            model.addAttribute("user",user);
+            return "home";
         }
 
         return "home";

@@ -33,7 +33,7 @@ public class Users {
     private String role ;
     @Column(name = "Email")
     @NotBlank(message = "Not blank")
-    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Can use alphabet, numbers and .-")
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Can use alphabet, numbers and .- and should include, for example, @gmail.com")
     private String email;
     @Column(name = "Username")
     @NotBlank(message = "Not blank")

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 import static com.example.learningPlatform.model.SHA512Hasher.*;
@@ -27,7 +28,7 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
     @Autowired
     ISaltRepo saltRepo;
 
-    public Users usersStatic;
+    public Users usersStatic = null;
 
 
 
@@ -69,7 +70,16 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
 
     @Override
     public Users getAuthorisedUser() {
-        Users users1 = userRepo.findByEmail(usersStatic.getEmail());
-        return users1;
+        if (usersStatic != null){
+            Users users1 = userRepo.findByEmail(usersStatic.getEmail());
+            return users1;
+        }
+
+        return new Users("test","test",Role.guest.name(), "tesr@gmail.com","test","test","Test5$66",new Salt());
+    }
+
+    @Override
+    public void logOut() {
+        usersStatic = null;
     }
 }

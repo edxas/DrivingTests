@@ -1,5 +1,7 @@
 package com.example.learningPlatform.controller;
 
+import com.example.learningPlatform.model.Role;
+import com.example.learningPlatform.model.Salt;
 import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.service.IDrivingLearningPlatformService;
 import com.example.learningPlatform.service.impl.IDrivingLearningPlatformServiceImpl;
@@ -23,12 +25,15 @@ public class UserController {
     IDrivingLearningPlatformServiceImpl drivingLearningPlatformService;
 
     @GetMapping(value="/newUser")
-    public String getAddUser(Users reader, Model model){
+    public String getAddUser(Model model, Users users){
+
+
         return "new-user";
     }
 
     @PostMapping(value="/newUser")
-    public String setAddUser(ServletRequest request, RedirectAttributes redirAttr, @Valid Users users, BindingResult result ) throws NoSuchAlgorithmException {
+    public String setAddUser(ServletRequest request, Model model, @Valid Users users, BindingResult result ) throws NoSuchAlgorithmException {
+
 
         if(null != request.getParameter("reg")){
 
@@ -37,10 +42,16 @@ public class UserController {
 
                     return "redirect:/home";
                 }
+                else {
+                    model.addAttribute("error", "User with such e-mail or username already exist");
+                }
             }
+        }
+        if(null != request.getParameter("log")){
+            return "redirect:/login";
         }
 
 
-        return "new-users";
+        return "new-user";
     }
 }
