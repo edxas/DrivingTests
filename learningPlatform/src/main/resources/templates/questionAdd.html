@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="header", style="
+  padding: 50px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+">
+    <h1>Preparation for driving test</h1>
+    <p>Adding new question</p>
+</div>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script>
+    var n = 0;
+    function addNewInputLine(){
+            $(document).ready(function(){
+           $("#answerParentElement").append(
+           "<div class=col-8 id=ans"+n+">"+
+                "<input type=text class=form-control name=answers></input>"+
+                "<button onclick=deleteAnswer("+n+") name=deleteInputLine class=btn btn-default type=button >Remove answer</button>"+
+           "</div>");
+        });n++;
+    }
+    function deleteAnswer(fieldNumber){
+        const element = document.getElementById("ans"+fieldNumber);
+        element.remove();
+    }
+  </script>
+  <meta charset="ISO-8859-1">
+  <title>New Question</title>
+</head>
+<body>
+<div class="container text-center">
+  <div>
+    <h1>New Question</h1>
+  </div>
+  <form th:action="@{/addNewQuestion}" th:object="${question}"
+        method="post" style="max-width: 600px; margin: 0 auto;">
+    <div class="m-3">
+
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Topic </label>
+
+        <div class="col-8">
+            <select th:field="*{topic}">
+                <option th:each="topic : ${topics}"
+                        th:value="${topic}" th:text="${topic}"></option>
+            </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Question </label>
+        <div class="col-8">
+          <input type="text" th:field="*{question}" class="form-control"
+                 required minlength="2" maxlength="20"/>
+        </div>
+      </div>
+
+      <div class="form-group row" id="answerParentElement">
+        <label class="col-4 col-form-label">Answers </label>
+
+        <div class="col-8">
+          <input type="text" th:field="*{answers}" class="form-control"/>
+                 <!--required minlength="2" maxlength="20"/>-->
+        </div>
+          <div class="col-8">
+          <input type="text" th:field="*{answers}" class="form-control"/>
+        </div>
+
+
+      </div>
+        <button onclick="addNewInputLine()" name="addInputLine" class="btn btn-default" type="button" >add another answer</button>
+        <!--<button onclick="deleteAnswer()" name="deleteInputLine" class="btn btn-default" type="button" >delete last </button>-->
+
+        <div class="form-group row">
+        <label class="col-4 col-form-label">Coreect answers </label>
+        <div class="col-8">
+          <input type="text" th:field="*{correct_answers}" class="form-control"
+                 required minlength="2" maxlength="20" />
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-primary">Add new</button>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>

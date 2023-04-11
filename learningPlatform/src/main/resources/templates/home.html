@@ -20,43 +20,39 @@
 background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
 height: 100vh;
 ">
-<div class=" container" >
-    <div class="vh-100 d-flex rounded bg-light "  >
+
+    <div class="vh-100 d-flex rounded bg-light container"  >
+
         <form class="w-100" action="#" th:action="@{/home}" method="post">
-            <div class="w-100 h-25 bg-secondary ">
-            <div th:switch="*{user.role}">
-                <div th:case="'guest'">
+
+            <div class="w-100" th:switch="*{user.role}">
+                <div class="w-100" th:case="'guest'">
 
                         <div class="d-flex justify-content-end p-3" >
                             <button name="logIN" type="submit" class="btn btn-primary">Log in</button>
-                            <button name="signUP" type="submit" class="btn btn-success">Sign up</button>
+                            <button name="signUP" type="submit" class="btn btn-success mx-3">Sign up</button>
                         </div>
                 </div>
                 <div th:case="'user'">
                     <div class="d-flex justify-content-end p-3" >
-                        <button name="logOut" type="submit" class="btn btn-primary">Log out</button>]
+                        <button name="logOut" type="submit" class="btn btn-primary">Log out</button>
                     </div>
-                    <div class="p-3 d-flex align-items-bottom">
-                        <nav class=" navbar navbar-expand-lg bg-body-tertiary ">
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <nav class="navbar navbar-light navbar-expand-xl " style="background-color: #e3f2fd;">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="#"></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                                <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="navbar-brand" href="/home">
-                                            <img src="https://e7.pngegg.com/pngimages/100/912/png-clipart-car-wheel-car-wheel.png" alt="wheel" width="30" height="24">
-                                        </a>
+                                        <a class="nav-link active" aria-current="page" href="#">Home</a>
                                     </li>
-
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle text-light" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            About us
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="/aboutus/history">History</a></li>
-                                            <li><a class="dropdown-item" href="/aboutys/teachers">Teachers</a></li>
-                                        </ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/about us">About us</a>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle text-light" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle text-light" href="/theory/allTopics" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             Theory
                                         </a>
                                         <ul class="dropdown-menu">
@@ -64,46 +60,19 @@ height: 100vh;
                                             <li><a class="dropdown-item" href="/theory/tests">Teachers</a></li>
                                         </ul>
                                     </li>
-
-
                                 </ul>
-
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-info" type="submit">Search</button>
-
                             </div>
-                        </nav>
-                    </div>
+                        </div>
+
+                    </nav>
+
+
                 </div>
             </div>
 
 
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class=" p-3 m-3">
-                        <ul>
-                            <li>
-                                <h3>Hello, dear</h3>
-                                <h3 th:text="${user.role}"></h3>
-                                <h3>!</h3>
-                            </li>
-                            <li>
-                                <button class="btn btn-outline-warning mr-3" type="submit">Try trial test</button>
-                                <button class="btn btn-outline-info" type="submit">Try real test</button>
-                            </li>
-                        </ul>
 
-                    </div>
-                </div>
 
-                <div class="col">
-                    <div class="card m-3" style="max-width: 29rem;" >
-                        <img src="https://campustechnology.com/-/media/EDU/CampusTechnology/2021-images/20210121collegestudents.jpg" class="card-img" alt="...">
-
-                    </div>
-                </div>
-            </div>
 
 
 
