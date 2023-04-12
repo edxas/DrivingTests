@@ -3,6 +3,8 @@ package com.example.learningPlatform.services;
 import com.example.learningPlatform.model.Question;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.type.descriptor.jdbc.IntegerJdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class QuestionService {
     @Autowired
     QuestionDataService dataService;
     private ArrayList<Question> questions = new ArrayList<>();
+    private Question question = new Question();
 
     public ArrayList<Question> getQuestions(){
         LOG.info(String.valueOf(useData));
@@ -29,6 +32,18 @@ public class QuestionService {
         }
         return questions;
     }
+    public void getQuestion(int id){
+/*        ArrayList<Question> list = new ArrayList<>();
+        dataService.findAll().forEach(question -> list.add(question));
+        //  dataService.findAll().forEach(question -> list.add(question));
+        System.out.println(list.size());
+        System.out.println(list.get(list.size()-1));
+        System.out.println(convertToStringLine(list.get(list.size()-1).getAnswers()));*/
+        System.out.println("Inside getQuestion");
+        Question test = dataService.findById(id);
+        System.out.println(test);
+
+    }
     public void addQuestion(Question incoming) {
         LOG.info(String.valueOf(useData));
         if (useData) {
@@ -38,5 +53,20 @@ public class QuestionService {
             return;
         }
         questions.add(incoming);
+    }
+    public void deleteQuestionById(int id) {
+        dataService.deleteById(id);
+    }
+    public String convertToStringLine(String[] answers){
+        String line = "";
+        LOG.info(String.valueOf(useData));
+        if (useData) {
+            for(int i=0; i<answers.length; i++)
+            {
+                line+=answers[i] +";";
+            }
+            return line;
+        }
+        return line;
     }
 }

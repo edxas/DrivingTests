@@ -13,6 +13,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
     var n = 0;
     function addNewInputLine(){
@@ -20,6 +22,7 @@
            $("#answerParentElement").append(
            "<div class=col-8 id=ans"+n+">"+
                 "<input type=text class=form-control name=answers></input>"+
+                "<input type=checkbox value=none name=correct_answers>"+
                 "<button onclick=deleteAnswer("+n+") name=deleteInputLine class=btn btn-default type=button >Remove answer</button>"+
            "</div>");
         });n++;
@@ -27,6 +30,13 @@
     function deleteAnswer(fieldNumber){
         const element = document.getElementById("ans"+fieldNumber);
         element.remove();
+    }
+    function doSomething() {
+    const element = document.getElementsByName("answers");
+    const element1 = document.getElementsByName("correct_answers");
+    for (let i = 0; i < element.length; i++) {
+      element1[i].value = element[i].value;
+    }
     }
   </script>
   <meta charset="ISO-8859-1">
@@ -36,8 +46,8 @@
 <div class="container text-center">
   <div>
     <h1>New Question</h1>
-  </div>
-  <form th:action="@{/addNewQuestion}" th:object="${question}"
+  </div><!--"return doSomething();"-->
+  <form th:action="@{/addNewQuestion}" th:object="${question}" onsubmit="doSomething()"
         method="post" style="max-width: 600px; margin: 0 auto;">
     <div class="m-3">
 
@@ -56,33 +66,45 @@
         <label class="col-4 col-form-label">Question </label>
         <div class="col-8">
           <input type="text" th:field="*{question}" class="form-control"
-                 required minlength="2" maxlength="20"/>
+                 required minlength="2" maxlength="255"/>
         </div>
       </div>
+<!-- ====================================================================================================================================================-->
+<!--      <table style="width:100%">
+        <thead>
+        <tr>
+          <th>Answers</th>
+          <th>Check the correct answers</th>
+        </tr>
+        </thead>
+      </table>-->
 
       <div class="form-group row" id="answerParentElement">
-        <label class="col-4 col-form-label">Answers </label>
-
         <div class="col-8">
-          <input type="text" th:field="*{answers}" class="form-control"/>
+          <label class="col-8 col-form-label">Answers            </label>
+          <label class="col-8 col-form-label">Check the boxes of the correct answers </label>
+        </div>
+        <div class="col-8">
+          <input type="text" th:field="*{answers}" class="form-control" required minlength="2"/>
                  <!--required minlength="2" maxlength="20"/>-->
+          <input type="checkbox" th:field="*{correct_answers}" th:value="none">
         </div>
+
           <div class="col-8">
-          <input type="text" th:field="*{answers}" class="form-control"/>
+          <input type="text" th:field="*{answers}" class="form-control" required minlength="2"/>
+          <input type="checkbox" th:field="*{correct_answers}" th:value="none">
         </div>
-
-
       </div>
         <button onclick="addNewInputLine()" name="addInputLine" class="btn btn-default" type="button" >add another answer</button>
-        <!--<button onclick="deleteAnswer()" name="deleteInputLine" class="btn btn-default" type="button" >delete last </button>-->
 
-        <div class="form-group row">
+<!--        <div class="form-group row">
         <label class="col-4 col-form-label">Coreect answers </label>
         <div class="col-8">
           <input type="text" th:field="*{correct_answers}" class="form-control"
                  required minlength="2" maxlength="20" />
         </div>
-      </div>
+      </div>-->
+<!-- ======================================================================================================================================================-->
 
       <div>
         <button type="submit" class="btn btn-primary">Add new</button>

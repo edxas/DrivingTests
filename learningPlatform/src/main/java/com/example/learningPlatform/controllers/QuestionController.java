@@ -2,8 +2,10 @@ package com.example.learningPlatform.controllers;
 
 import com.example.learningPlatform.model.Question;
 import com.example.learningPlatform.model.Topic;
+import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.services.QuestionService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.type.descriptor.jdbc.IntegerJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +32,18 @@ public class QuestionController {
         model.addAttribute("topics", Topic.values());
         return "questionAdd";
     }
-    @PostMapping(value = "/addNewQuestion")
+    @PostMapping("/addNewQuestion")
     public String createNewQuestions(Question question){
+        System.out.println(question);
         service.addQuestion(question);
         return"redirect:/seeQuestions";
+    }
+    @DeleteMapping("/deleteQuestion/{id}")
+    public void deleteQuestion(@PathVariable("id") int id) {
+        //service.getQuestion(id);
+        System.out.println("Got to controller");
+        service.deleteQuestionById(id);
+        //Users users1 = userRepo.findByEmail(user.getEmail());
+        //employeeService.deleteEmployeeById(id);
     }
 }

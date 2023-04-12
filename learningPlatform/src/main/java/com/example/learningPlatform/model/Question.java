@@ -20,7 +20,7 @@ public class Question {
     @Column(name = "Question", nullable = false)
     private String question;
     @Column(name = "Answers", nullable = false)
-    private String answers;
+    private String[] answers;
     @Column(name = "CorrectAnswers", nullable = false)
     private String correct_answers;
 }
