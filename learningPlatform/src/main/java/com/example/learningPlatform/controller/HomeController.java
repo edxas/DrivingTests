@@ -1,6 +1,7 @@
 package com.example.learningPlatform.controller;
 
 
+import com.example.learningPlatform.model.Topic;
 import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.service.IDrivingLearningPlatformService;
 import jakarta.servlet.ServletRequest;
@@ -39,6 +40,7 @@ public class HomeController {
             drivingLearningPlatformService.logOut();
             user = drivingLearningPlatformService.getAuthorisedUser();
             model.addAttribute("user",user);
+            model.addAttribute("topics", Topic.values());
             return "home";
         }
 
