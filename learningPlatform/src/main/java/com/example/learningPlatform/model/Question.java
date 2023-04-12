@@ -3,11 +3,13 @@ package com.example.learningPlatform.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 
 @Table(name = "questions")
 @Entity
 @Data
+//@Component
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {

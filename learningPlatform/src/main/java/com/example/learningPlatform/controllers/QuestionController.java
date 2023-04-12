@@ -38,12 +38,10 @@ public class QuestionController {
         service.addQuestion(question);
         return"redirect:/seeQuestions";
     }
-    @DeleteMapping("/deleteQuestion/{id}")
-    public void deleteQuestion(@PathVariable("id") int id) {
-        //service.getQuestion(id);
-        System.out.println("Got to controller");
+    //@DeleteMapping("/deleteQuestion/{id}")
+    @RequestMapping(value="/deleteQuestion/{id}", method={RequestMethod.DELETE, RequestMethod.GET})
+    public String deleteQuestion(@PathVariable("id") int id) {
         service.deleteQuestionById(id);
-        //Users users1 = userRepo.findByEmail(user.getEmail());
-        //employeeService.deleteEmployeeById(id);
+        return"redirect:/seeQuestions";
     }
 }

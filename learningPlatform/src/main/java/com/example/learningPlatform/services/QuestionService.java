@@ -7,13 +7,18 @@ import org.hibernate.type.descriptor.jdbc.IntegerJdbcType;
 import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
 @Service
 @Data
 @Slf4j
+@Transactional
 public class QuestionService {
     @Value("${data}")
     boolean useData;
@@ -33,12 +38,6 @@ public class QuestionService {
         return questions;
     }
     public void getQuestion(int id){
-/*        ArrayList<Question> list = new ArrayList<>();
-        dataService.findAll().forEach(question -> list.add(question));
-        //  dataService.findAll().forEach(question -> list.add(question));
-        System.out.println(list.size());
-        System.out.println(list.get(list.size()-1));
-        System.out.println(convertToStringLine(list.get(list.size()-1).getAnswers()));*/
         System.out.println("Inside getQuestion");
         Question test = dataService.findById(id);
         System.out.println(test);
@@ -55,6 +54,9 @@ public class QuestionService {
         questions.add(incoming);
     }
     public void deleteQuestionById(int id) {
+        System.out.println("Inside service deleteQuestionById method");
+        Question test = dataService.findById(id);
+        System.out.println(test);
         dataService.deleteById(id);
     }
     public String convertToStringLine(String[] answers){
