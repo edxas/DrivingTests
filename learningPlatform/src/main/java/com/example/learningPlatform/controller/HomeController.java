@@ -40,7 +40,6 @@ public class HomeController {
             drivingLearningPlatformService.logOut();
             user = drivingLearningPlatformService.getAuthorisedUser();
             model.addAttribute("user",user);
-            model.addAttribute("topics", Topic.values());
             return "home";
         }
 

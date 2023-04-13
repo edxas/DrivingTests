@@ -18,7 +18,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false, unique=true)
-    private long id ;
+    private int id ;
     @Column(name = "Name")
     @NotBlank(message = "Not blank")
     @Size(min = 3,max = 30, message = "Out of range min 3 un max 30")
