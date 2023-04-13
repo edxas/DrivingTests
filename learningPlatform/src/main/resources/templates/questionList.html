@@ -42,11 +42,9 @@
             <td><form th:action="@{http://localhost:8080/deleteQuestion/{id}(id=${question.id})}">
                 <input type="submit" value="Remove" />
             </form></td>
-
-            <!-- <td th:text="${question.answers}"></td>
-            <td th:text="${question.correct_answers}"></td>-->
         </tr>
         </tbody>
+<!--<img  th:src="@{'data:image/jpeg;charset=utf-8;base64,'+${image}}" />-->
     </table>
 </div>
 </body>

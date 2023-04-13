@@ -23,6 +23,11 @@ public class Question {
     private String question;
     @Column(name = "Answers", nullable = false)
     private String[] answers;
-    @Column(name = "CorrectAnswers", nullable = false)
+    @Column(name = "Correct_Answers", nullable = false)
     private String correct_answers;
+    @Column(name = "Hint", nullable = false)
+    private String hint;
+    @Lob
+    @Column(name="Question_Photo")
+    private byte[] question_photo;
 }
