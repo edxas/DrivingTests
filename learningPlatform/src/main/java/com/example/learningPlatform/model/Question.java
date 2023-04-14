@@ -24,7 +24,7 @@ public class Question {
     @Column(name = "Answers", nullable = false)
     private String[] answers;
     @Column(name = "Correct_Answers", nullable = false)
-    private String correct_answers;
+    private String[] correct_answers;
     @Column(name = "Hint", nullable = false)
     private String hint;
     @Lob
