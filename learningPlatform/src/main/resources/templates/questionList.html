@@ -15,15 +15,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Question list</title>
+
+    <script>
+        function deleteAnswerConfirmation(){
+        let confirmValue = confirm("Are you sure you want to delete?");
+        if(confirmValue == true){
+            return true;
+        }else return false;
+        }
+    </script>
 </head>
 <body>
-<form action="http://localhost:8080/addNewQuestion">
-    <input type="submit" value="Add new" />
-</form>
+
 <div class="container my-2">
 
     <h3>Question List</h3>
-
+    <form action="http://localhost:8080/addNewQuestion">
+        <input type="submit" value="Add new question" />
+    </form>
     <table style="width:80%" border="1"
            class = "table table-striped table-responsive-md">
         <thead>
@@ -36,15 +45,12 @@
         <tr th:each="question:${question}">
             <td th:text="${question.id}"></td>
             <td th:text="${question.question}"></td>
-            <td><form action="http://localhost:8080/seeQuestions/1">
+            <td><form th:action="@{http://localhost:8080/editQuestion/{id}(id=${question.id})}">
                 <input type="submit" value="Edit" />
             </form></td>
-            <td><form action="http://localhost:8080/seeQuestions/1">
+            <td><form onSubmit="return deleteAnswerConfirmation();"  th:action="@{http://localhost:8080/deleteQuestion/{id}(id=${question.id})}">
                 <input type="submit" value="Remove" />
             </form></td>
-
-            <!-- <td th:text="${question.answers}"></td>
-            <td th:text="${question.correct_answers}"></td>-->
         </tr>
         </tbody>
     </table>
