@@ -2,7 +2,9 @@ package com.example.learningPlatform.controllers;
 
 import com.example.learningPlatform.model.Question;
 import com.example.learningPlatform.model.Topic;
+import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.services.QuestionService;
+import com.example.learningPlatform.tempClass.Passwords;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,9 +32,12 @@ public class QuestionController {
         model.addAttribute("topics", Topic.values());
         return "questionAdd";
     }
+
     @PostMapping(value = "/addNewQuestion")
     public String createNewQuestions(Question question){
         service.addQuestion(question);
         return"redirect:/seeQuestions";
     }
+
+
 }

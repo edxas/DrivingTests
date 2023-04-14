@@ -5,6 +5,7 @@ import com.example.learningPlatform.model.Salt;
 import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.service.IDrivingLearningPlatformService;
 import com.example.learningPlatform.service.impl.IDrivingLearningPlatformServiceImpl;
+import com.example.learningPlatform.tempClass.Passwords;
 import jakarta.servlet.ServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -132,13 +133,10 @@ public class UserController {
     }
 
     @GetMapping(value="/editUser/password")
-    public String getEditPassword(Model model ){
+    public String getEditPassword(Model model, Passwords passwords ){
         Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
         model.addAttribute("role",authorisedUser.getRole());
-        String newPassword = "";
-        model.addAttribute("newPassword",newPassword);
-        String oldPassword = "";
-        model.addAttribute("oldPassword",oldPassword);
+
 
 
 
@@ -147,14 +145,14 @@ public class UserController {
     }
 
     @PostMapping(value="/editUser/password")
-    public String setEditPassword(ServletRequest request,  Model model, @RequestBody  String newPassword, @RequestBody String oldPassword, BindingResult result ) throws NoSuchAlgorithmException {
+    public String setEditPassword(ServletRequest request, Model model, @Valid Passwords passwords, BindingResult result ) throws NoSuchAlgorithmException {
         System.out.println("Error post mapping -false");
         Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
 
         if(null != request.getParameter("saveButton")){
             System.out.println(result.getAllErrors());
             if(!result.hasErrors()){
-                if(drivingLearningPlatformService.changePassword(newPassword,authorisedUser.getUsername(),oldPassword)){
+                if(drivingLearningPlatformService.changePassword(passwords.getNewPassword(),authorisedUser.getUsername(),passwords.getOldPassword())){
 
 
                     return "redirect:/user";
@@ -178,8 +176,7 @@ public class UserController {
 
         model.addAttribute("role",authorisedUser.getRole());
 
-        model.addAttribute("newPassword",newPassword);
-        model.addAttribute("oldPassword",oldPassword);
+
         return "edit-password";
     }
 
