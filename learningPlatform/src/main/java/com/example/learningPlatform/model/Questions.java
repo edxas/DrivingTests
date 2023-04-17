@@ -3,16 +3,21 @@ package com.example.learningPlatform.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 @Table(name = "questions")
-@Entity
+@Entity(name = "questions")
 @Data
 //@Component
 @NoArgsConstructor
-@AllArgsConstructor
-public class Question {
+public class Questions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false, unique=true)
@@ -30,4 +35,18 @@ public class Question {
     @Lob
     @Column(name="Question_Photo")
     private byte[] question_photo;
+
+    @ManyToMany(mappedBy = "questionsList")
+    private List<Tests> testslist  = new ArrayList<>();
+
+    public Questions(String Topic, String Question, String[] Answers, String[] Correct_answers, String Hint, byte[] Question_photo){
+        this.answers = Answers;
+        this.question = Question;
+        this.correct_answers = Correct_answers;
+        this.hint = Hint;
+        this.question_photo = Question_photo;
+        this.topic = Topic;
+    }
+
+
 }

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Question</title>
+    <title>Result</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1 ">
     <link rel="stylesheet" href="http://localhost:8080/style.css" type="text/css"/>
@@ -40,12 +40,10 @@ height: 100vh;
                             </li>
                         </ul>
                     </div>
-                    <div class="mx=4">
-                        <span th:text="${actualSize}" class="text-success"></span> <span class="text-light">:</span><span class="text-light" th:text="${size}"></span>
-                    </div>
+
                 </div>
 
-                <div class="w-100 mx-4" th:unless="${role == 'guest'}">
+                <div class="w-100 mx-2" th:unless="${role == 'guest'}">
                     <div class="d-flex justify-content-end p-3" >
                         <button name="logOut" type="submit" class="btn btn-primary">Log out</button>
                     </div>
@@ -90,10 +88,8 @@ height: 100vh;
 
                     </ul>
                 </div>
-                    <div class="mx=4">
-                        <span th:text="${actualSize}" class="text-success"></span> <span class="text-light">:</span><span class="text-light" th:text="${size}"></span>
-                    </div>
-                </div>
+
+            </div>
             </div>
             <nav class="navbar navbar-dark bg-dark">
                 <div class="container-fluid">
@@ -102,78 +98,38 @@ height: 100vh;
                     </button>
                 </div>
             </nav>
-            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <table class="table table-borderless table-striped mx-auto">
+                <thead>
+                <tr>
+                    <th colspan="5" class="text-center">Results</th>
 
-                <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
-                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                </symbol>
-            </svg>
-            <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert" th:if="${error}">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                <div  th:text="${error}">
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <div class="m-2 p-2">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card bg-dark text-white" >
-                            <img th:unless="${image}==null" th:src="${image}" class="card-img"  style="height: 21rem" alt="...">
-                            <img th:if="${image}==null" src="https://static.vecteezy.com/system/resources/previews/001/894/304/original/man-avatar-thinking-with-question-marks-design-free-vector.jpg" class="card-img"  style="height: 21rem" alt="...">
+                </tr>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Correct answer</th>
+                    <th>Your answer</th>
+                    <th>Is correct?</th>
+                </tr>
+                </thead>
+                <tbody>
 
-                            <div class="card-img-overlay">
-                                <button type="button" class="btn btn-lg btn-outline-info" data-bs-toggle="popover" th:data-bs-content="${question1.hint}">Hint</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-1">
-                        <div class="card" style="height: 21rem">
-                            <div class="card-body ">
-                                <h3 th:text = "${question1.question}"></h3>
-                                <table class="table m-4 table-borderless ">
-                                    <tr th:each="answer,iter: ${answers}">
-                                        <td>
-                                            <div class="form-check">
-                                                <input th:name="${iter.index}" type="checkbox" class="btn-check" th:id="${iter.index}"  autocomplete="off">
-                                                <label   th:text="${answer}" class="btn btn-outline-success"  th:for="${iter.index}" ></label>
+                <tr th:each="question,iter: ${questions}">
+                    <th th:text="${iter.index}"></th>
+                    <td th:text="${question.correct_answers[0]}"></td>
+                    <td th:text="${userAnswers[iter.index]}"></td>
+                    <td class="text-success" th:if="${isCorrect[iter.index]==true}">Correct</td>
+                    <td class="text-danger" th:if="${isCorrect[iter.index]==false}">Not</td>
 
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                </table>
-                                <div class="mx-2  d-flex align-self-end justify-content-end" >
-                                    <button name="next" type="submit" class="btn btn-warning">Next question</button>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-center" >Score</td>
+                    <td colspan="2" class="text-center" th:text="${score}"></td>
+                </tr>
+                </tbody>
+            </table>
 
         </form>
+
 
 
 

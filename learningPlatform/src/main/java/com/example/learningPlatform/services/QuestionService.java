@@ -1,6 +1,6 @@
 package com.example.learningPlatform.services;
 
-import com.example.learningPlatform.model.Question;
+import com.example.learningPlatform.model.Questions;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -23,31 +23,31 @@ public class QuestionService {
     boolean useData;
     @Autowired
     QuestionDataService dataService;
-    private ArrayList<Question> questions = new ArrayList<>();
-    private Question question = new Question();
+    private ArrayList<Questions> questions = new ArrayList<>();
+    private Questions question = new Questions();
     private boolean loadCheck = true;
 
-    public ArrayList<Question> getQuestions(){
+    public ArrayList<Questions> getQuestions(){
         LOG.info(String.valueOf(useData));
         if(useData){
-            ArrayList<Question> list = new ArrayList<>();
+            ArrayList<Questions> list = new ArrayList<>();
             dataService.findAll().forEach(question -> list.add(question));
             LOG.info("size of current visitors listing: " + list.size());
             return  list;
         }
         return questions;
     }
-    public Question getQuestion(int id){
+    public Questions getQuestion(int id){
         LOG.info(String.valueOf(useData));
         if(useData){
             question = dataService.findById(id);
             if(question != null) LOG.info("Got question: " + removeBlobForLogging(question).toString());
-            else LOG.info("Question with id: "+id+" Not found");
+            else LOG.info("Questions with id: "+id+" Not found");
             return question;
         }
         return question;
     }
-    public String getQuestionBase64String(Question question){
+    public String getQuestionBase64String(Questions question){
         LOG.info(String.valueOf(useData));
         String imageString = "";
         if(useData){
@@ -60,7 +60,7 @@ public class QuestionService {
         }
         return imageString;
     }
-    public void addQuestion(Question incoming) {
+    public void addQuestion(Questions incoming) {
         LOG.info(String.valueOf(useData));
         if (useData) {
             dataService.save(incoming);
@@ -146,8 +146,8 @@ public class QuestionService {
     }
 
     //Creating a copy of a question and replacing BLOB data, so it does not flood the console (replacing only notEmpty pictures)
-    public Question removeBlobForLogging(Question question){
-        Question questionSmall = new Question(question.getId(),question.getTopic(),question.getQuestion(),question.getAnswers(), question.getCorrect_answers(),question.getHint(), question.getQuestion_photo());
+    public Questions removeBlobForLogging(Questions question){
+        Questions questionSmall = new Questions(question.getTopic(),question.getQuestion(),question.getAnswers(), question.getCorrect_answers(),question.getHint(), question.getQuestion_photo());
         if(questionSmall.getQuestion_photo().length > 0) questionSmall.setQuestion_photo("NotEmpty".getBytes());
         return questionSmall;
     }

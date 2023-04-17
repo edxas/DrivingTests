@@ -1,22 +1,19 @@
 package com.example.learningPlatform.service.impl;
 
-import com.example.learningPlatform.model.Role;
-import com.example.learningPlatform.model.Salt;
-import com.example.learningPlatform.model.Users;
+import com.example.learningPlatform.model.*;
 import com.example.learningPlatform.repo.ISaltRepo;
+import com.example.learningPlatform.repo.ITestRepo;
 import com.example.learningPlatform.repo.IUserRepo;
 import com.example.learningPlatform.service.IDrivingLearningPlatformService;
+import com.example.learningPlatform.services.QuestionDataService;
 import lombok.Data;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.type.descriptor.jdbc.IntegerJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
-import java.sql.JDBCType;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.example.learningPlatform.model.SHA512Hasher.*;
 
@@ -30,6 +27,10 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
     IUserRepo userRepo;
     @Autowired
     ISaltRepo saltRepo;
+    @Autowired
+    ITestRepo testRepo;
+    @Autowired
+    QuestionDataService questionDataService;
 
     public Users usersStatic = null;
 
@@ -110,8 +111,7 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
     @Override
     public boolean changePassword(String newPassword, String username, String password) throws NoSuchAlgorithmException {
 
-        System.out.println("Old password "+password);
-        System.out.println("New password "+newPassword);
+
         if(authoriseUser(username,password)){
             Users users1 = userRepo.findByUsername(username);
             Salt salt = new Salt(getSalt());
@@ -124,5 +124,107 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<Questions> getTestQuestions(int id) {
+
+        return questionDataService.findAllByTestslistId(id);
+
+    }
+
+    @Override
+    public int generateRandomTest() {
+        ArrayList<Questions>  questions= questionDataService.findAll();
+        ArrayList<Questions> testQuestions = new ArrayList<>();
+        for (int i =0; i<7; i++){
+            testQuestions.add(questions.remove((int)Math.floor(Math.random() *(questions.size()) )));
+
+        }
+
+        testRepo.save(new Tests(Topic.random.name(),testQuestions,getAuthorisedUser()));
+
+        return testRepo.findTopByOrderByIdDesc().getId();
+    }
+
+    @Override
+    public void saveChosenAnswers(ArrayList<String> chosenAnswers, int id) {
+        Tests test1 = testRepo.findById(id).get();
+        test1.setUser_chosen_answer_list(chosenAnswers);
+        testRepo.save(test1);
+
+
+    }
+
+    @Override
+    public Tests getTestById(int id) {
+        return testRepo.findById(id).get();
+    }
+
+    @Override
+    public double calculateResult(ArrayList<Questions> questions, ArrayList<String> answers, ArrayList<Boolean> isCorect, int id) {
+        double score = 0;
+        String chosenAnswersString = answers.get(0);
+        if(chosenAnswersString.contains("[")){
+            chosenAnswersString = chosenAnswersString.substring(1,chosenAnswersString.length()-1);
+        }
+
+        String[] answersChosen=chosenAnswersString.split(", ");
+
+        for (int i=0; i<questions.size(); i++) {
+
+
+            String correctAnswersString = questions.get(i).getCorrect_answers()[0];
+            if(correctAnswersString.contains("[")){
+                correctAnswersString = correctAnswersString.substring(1,correctAnswersString.length()-1);
+            }
+            String[] correctAnswers= null;
+            if(correctAnswersString.contains(",")){
+                correctAnswers=correctAnswersString.split(",");
+            }
+            else {
+                correctAnswers= new String[]{correctAnswersString};
+            }
+            String[] answersChosen1= null;
+
+            if(answersChosen[i].contains(";")){
+                answersChosen1=answersChosen[i].split(";");
+            }
+            else {
+                answersChosen1= new String[]{answersChosen[i]};
+            }
+            ArrayList<Boolean> tempIsCorrect = new ArrayList<>();
+            for (String ss : answersChosen1) {
+
+                Boolean isEqual = false;
+                for (String s : correctAnswers) {
+
+                    if(ss.equals(s)==true){
+                        isEqual = true;
+                        break;
+                    }
+                }
+                tempIsCorrect.add(isEqual);
+
+            }
+            if (tempIsCorrect.contains(false)){
+                isCorect.add(false);
+            }
+            else {
+                isCorect.add(true);
+                score +=1;
+
+            }
+
+        }
+
+        score = score/questions.size()*10;
+        score = Math.round(score * 100.0) / 100.0;
+
+        Tests test1 = testRepo.findById(id).get();
+        test1.setScore(score);
+        testRepo.save(test1);
+        return  score;
+
     }
 }

@@ -99,8 +99,8 @@ height: 100vh;
                                 <h5 class="card-title" th:if="${user.role == 'guest'}">Hello, dear guest!</h5>
                                 <h5 class="card-title" th:unless="${user.role == 'guest'}">Hello, dear <span th:text="${user.name}"></span> <span th:text="${user.surname}"></span>!</h5>
 
-                                <a href="/mockTest" class="btn btn-primary" >Try mock test</a>
-                                <a href="/randomTest" class="btn btn-outline-info" th:unless="${user.role == 'guest'}">Try real test</a>
+                                <button name="mock" type="submit" class="btn btn-primary" >Try mock test</button>
+                                <button name="real" type="submit" class="btn btn-outline-info" th:unless="${user.role == 'guest'}">Try real test</button>
                                 <a href="/login" class="btn btn-outline-info" th:if="${user.role == 'guest'}">Try real test</a>
                             </div>
                         </div>

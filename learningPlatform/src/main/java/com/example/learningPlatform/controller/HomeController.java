@@ -42,6 +42,15 @@ public class HomeController {
             model.addAttribute("user",user);
             return "home";
         }
+        if(null != request.getParameter("mock")){
+
+            return "redirect:/test/question/"+1;
+        }
+        if(null != request.getParameter("real")){
+
+
+            return "redirect:/test/question/"+drivingLearningPlatformService.generateRandomTest();
+        }
 
         return "home";
     }
