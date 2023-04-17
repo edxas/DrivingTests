@@ -69,6 +69,22 @@ public class QuestionService {
         }
         questions.add(incoming);
     }
+    public void updateQuestion(Question incoming,int id) {
+        Question question1 = getQuestion(id);
+        question1.setQuestion(incoming.getQuestion());
+        question1.setAnswers(incoming.getAnswers());
+        question1.setCorrect_answers(incoming.getCorrect_answers());
+        question1.setTopic(incoming.getTopic());
+        question1.setHint(incoming.getHint());
+
+        if(incoming.getQuestion_photo() != null) question1.setQuestion_photo(incoming.getQuestion_photo());
+        LOG.info(String.valueOf(useData));
+        if (useData) {
+            dataService.save(question1);
+            LOG.info("Added question: \n"+removeBlobForLogging(incoming).toString());
+        }
+        //questions.add(incoming);
+    }
     public void deleteQuestionById(int id) {
         LOG.info(String.valueOf(useData));
         if (useData) {
@@ -92,6 +108,12 @@ public class QuestionService {
             return line;
         }
         return line;
+    }
+    public String[] convertToStringMatrix(String[] answers){
+        String line = answers[0];
+        //removing brackets and splitting it into parts at ; symbol
+        String[] newLine = line.substring(1,line.length()-1).split(";");
+        return newLine;
     }
     public void populateInitalUploadPhotos() throws IOException {
         if(loadCheck) { //1st load

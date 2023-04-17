@@ -48,15 +48,14 @@
 
 
 
-      <div class="form-group row" id="answerParentElement">
-        <div class="checkbox-group required">
+      <div class="form-group row" >
+        <div class="checkbox-group required" id="answerParentElement">
           <div class="col-8">
             <label class="col-8 col-form-label">Answers </label>
             <label class="col-8 col-form-label">Check the boxes of the correct answers </label>
           </div>
           <div class="col-8">
             <input type="text" th:field="*{answers}" class="form-control" required minlength="2"/>
-                   <!--required minlength="2" maxlength="200"/>-->
             <input type="checkbox" th:field="*{correct_answers}" th:value="none">
           </div>
             <div class="col-8">
@@ -66,7 +65,7 @@
         </div>
       </div>
 
-        <button onclick="addNewInputLine()" name="addInputLine" class="btn btn-default" type="button" >add another answer</button>
+      <button onclick="addNewInputLine()" name="addInputLine" class="btn btn-default" type="button" >add another answer</button>
 
 
       <div class="form-group row">

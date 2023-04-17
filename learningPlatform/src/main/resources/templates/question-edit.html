@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="header", style="
+  padding: 50px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+">
+    <h1>Preparation for driving test</h1>
+    <p>Adding new question</p>
+</div>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="question.js"></script>
+  <script>
+  let n=0;
+//document.getElementById("checkbox").checked = true;
+$(document).ready(function(){
+let state = "";
+let deleteButton = "";
+const data = "[[${answersnew}]]";
+const ansData = "[[${correctnew}]]";
+const data1 = data.substring(2, data.length-3).split(';');
+const ansData1 = ansData.substring(2, ansData.length-3).split(';');
+
+for(let i=0; i<data1.length; i++)
+{
+     if(ansData1.includes(data1[i])) state="checked"; else state="";
+     if(i>1) deleteButton = "<button onclick=deleteAnswer("+i+") name=deleteInputLine class=btn btn-default type=button >Remove answer</button>"; else deleteButton="";
+     $("#answerParentElement").append(
+     "<div class=col-8 id=ans"+i+">"+
+          "<input type=text class=form-control name=answers required minlength=2 value="+data1[i]+"></input>"+
+          "<input type=checkbox value=none name=correct_answers "+state+">"+
+          deleteButton+
+     "</div>");
+}
+});
+function addNewInputLine(){
+        $(document).ready(function(){
+       $("#answerParentElement").append(
+       "<div class=col-8 id=ans"+n+">"+
+            "<input type=text class=form-control name=answers required minlength=2></input>"+
+            "<input type=checkbox value=none name=correct_answers>"+
+            "<button onclick=deleteAnswer("+n+") name=deleteInputLine class=btn btn-default type=button >Remove answer</button>"+
+       "</div>");
+    });n++;
+}
+function deleteAnswer(fieldNumber){
+    let confirmValue = confirm("Are you sure you want to delete?");
+    if(confirmValue == true){
+    }
+    const element = document.getElementById("ans"+fieldNumber);
+    element.remove();
+}
+function fillCheckboxValue() {
+
+  if($('div.checkbox-group.required :checkbox:checked').length > 0){
+    const answers = document.getElementsByName("answers");
+    const correctAnswers = document.getElementsByName("correct_answers");
+    for (let i = 0; i < answers.length; i++) {
+      correctAnswers[i].value = answers[i].value;
+    }
+    return true;
+  }
+  else{
+      alert("You have not chosen any correct answers. Please be sure to checkmark the correct answer near the answer field");
+      return false;
+  }
+}
+function upload_check()
+{
+  var uplImage = document.getElementById("image");
+  var max = 1048576; //default 1mb 1024x1024
+  if(uplImage.files[0].size > max)
+  {
+     alert("File too big! Select a file up to 1 Mb");
+     uplImage.value = "";
+  }
+}
+
+  </script>
+  <meta charset="ISO-8859-1">
+  <title>New Question</title>
+</head>
+<body>
+<div class="container text-center">
+  <div>
+    <h1>New Question</h1>
+  </div>
+  <form th:action="@{/editQuestion/{id}(id=${question.id})}" th:object="${question}" onsubmit="return fillCheckboxValue()" enctype="multipart/form-data"
+        method="post" style="max-width: 600px; margin: 0 auto;">
+    <div class="m-3">
+
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Topic </label>
+
+        <div class="col-8">
+            <select th:field="*{topic}">
+                <option th:each="topic : ${topics}"
+                        th:value="${topic}" th:text="${topic}"></option>
+            </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Question </label>
+        <div class="col-8">
+          <input type="text" th:field="*{question}" class="form-control"
+                 required minlength="2" maxlength="255"/>
+        </div>
+      </div>
+
+      <div class="form-group row" >
+        <div class="checkbox-group required" id="answerParentElement">
+          <div class="col-8">
+            <label class="col-8 col-form-label">Answers </label>
+            <label class="col-8 col-form-label">Check the boxes of the correct answers </label>
+          </div>
+        </div>
+      </div>
+
+        <button onclick="addNewInputLine()" name="addInputLine" class="btn btn-default" type="button" >add another answer</button>
+
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Hint </label>
+        <div class="col-8">
+          <input type="text" th:field="*{hint}" class="form-control" maxlength="255"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Question Photo</label>
+        <div class="col-8">
+          <input th:field="*{question_photo}" type="hidden"/>
+          <div th:if="${image.length != 0}">
+            <img  th:src="@{'data:image/jpeg;charset=utf-8;base64,'+${image}}" width="160" height="160" />
+          </div>
+          <input onchange="upload_check()" name="image" type="file" class="form-control" id="image" accept="image/png, image/jpeg" />
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-primary">Add new</button>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>
