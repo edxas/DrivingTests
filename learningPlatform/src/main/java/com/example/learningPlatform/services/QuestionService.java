@@ -52,7 +52,7 @@ public class QuestionService {
         String imageString = "";
         if(useData){
             byte[] image = question.getQuestion_photo();
-            if(image.length > 0){
+            if(image != null){
                 imageString = Base64.encodeBase64String(image);
                 LOG.info("The question has a picture");
             }else LOG.info("The question does not have a picture");
@@ -69,8 +69,8 @@ public class QuestionService {
         }
         questions.add(incoming);
     }
-    public void updateQuestion(Question incoming,int id) {
-        Question question1 = getQuestion(id);
+    public void updateQuestion(Questions incoming,int id) {
+        Questions question1 = getQuestion(id);
         question1.setQuestion(incoming.getQuestion());
         question1.setAnswers(incoming.getAnswers());
         question1.setCorrect_answers(incoming.getCorrect_answers());
@@ -148,7 +148,7 @@ public class QuestionService {
     //Creating a copy of a question and replacing BLOB data, so it does not flood the console (replacing only notEmpty pictures)
     public Questions removeBlobForLogging(Questions question){
         Questions questionSmall = new Questions(question.getTopic(),question.getQuestion(),question.getAnswers(), question.getCorrect_answers(),question.getHint(), question.getQuestion_photo());
-        if(questionSmall.getQuestion_photo().length > 0) questionSmall.setQuestion_photo("NotEmpty".getBytes());
+        if(questionSmall.getQuestion_photo() != null) questionSmall.setQuestion_photo("NotEmpty".getBytes());
         return questionSmall;
     }
 }

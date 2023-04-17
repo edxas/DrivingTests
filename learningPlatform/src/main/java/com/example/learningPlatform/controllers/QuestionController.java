@@ -47,7 +47,7 @@ public class QuestionController {
     }
     @GetMapping(value = "/editQuestion/{id}")
     public String updateForm(@PathVariable int id, Model model) {
-        Question question = service.getQuestion(id);
+        Questions question = service.getQuestion(id);
         if(question == null) return"redirect:/seeQuestions";
         String image = service.getQuestionBase64String(question);
         model.addAttribute("image", image);
@@ -71,7 +71,7 @@ public class QuestionController {
         return"redirect:/seeQuestions";
     }
     @PostMapping("/editQuestion/{id}")
-    public String updateQuestions(@PathVariable int id,Question question,@RequestParam(name="image") MultipartFile file) {
+    public String updateQuestions(@PathVariable int id,Questions question,@RequestParam(name="image") MultipartFile file) {
         if(file.getSize() != 0) question.setQuestion_photo(service.inputImageToBytes(file));
         question.setAnswers(new String[]{service.convertToStringLine(question.getAnswers())});
         question.setCorrect_answers(new String[]{service.convertToStringLine(question.getCorrect_answers())});

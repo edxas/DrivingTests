@@ -4,6 +4,7 @@ import com.example.learningPlatform.model.Questions;
 import com.example.learningPlatform.model.Tests;
 import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.service.impl.IDrivingLearningPlatformServiceImpl;
+import com.example.learningPlatform.services.QuestionService;
 import jakarta.servlet.ServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 public class TestController {
     @Autowired
     IDrivingLearningPlatformServiceImpl drivingLearningPlatformService;
+    @Autowired
+    QuestionService questionService;
 
     ArrayList<Questions> questions= new ArrayList<>();
     ArrayList<String> userAnswers= new ArrayList<>();
@@ -47,7 +50,8 @@ public class TestController {
         model.addAttribute("question1", question1);
         model.addAttribute("size",testSize);
         model.addAttribute("actualSize", 0);
-        model.addAttribute("image", null);
+        String image = questionService.getQuestionBase64String(question1);
+        model.addAttribute("image", image);
         return "question-template";
     }
 
@@ -124,7 +128,9 @@ public class TestController {
         }
         model.addAttribute("answers",answersString.split(","));
         model.addAttribute("question1", question1);
-        model.addAttribute("image", null);
+        //System.out.println(question1);
+        String image = questionService.getQuestionBase64String(question1);
+        model.addAttribute("image", image);
         return "question-template";
     }
 
