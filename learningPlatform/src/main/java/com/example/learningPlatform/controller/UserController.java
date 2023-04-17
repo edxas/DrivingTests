@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -59,7 +61,9 @@ public class UserController {
     public String getUser(Model model, Users user){
         user = drivingLearningPlatformService.getAuthorisedUser();
         model.addAttribute("user",user);
-
+        if(user.getRole()=="guest"){
+            return "redirect:/home";
+        }
 
         return "user-profile";
     }
@@ -92,10 +96,15 @@ public class UserController {
     @GetMapping(value="/editUser/{id}/")
     public String getEditUser(Model model,@PathVariable(name = "id") int id, Users authorisedUser, Users users ){
         authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
-        model.addAttribute("authorisedUser",authorisedUser);
+        if(authorisedUser.getRole()=="guest"){
+
+            return "redirect:/home";
+        }
+        model.addAttribute("role",authorisedUser.getRole());
         users = drivingLearningPlatformService.getUserById(id);
         users.setPassword("Testt66$");
         model.addAttribute("users",users);
+
 
 
 
@@ -124,17 +133,34 @@ public class UserController {
 
             return "redirect:/home";
         }
+
         authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
 
-        model.addAttribute("authorisedUser",authorisedUser);
+        model.addAttribute("role",authorisedUser.getRole());
 
         model.addAttribute("users",users);
         return "edit-user";
     }
+    @GetMapping(value="/aboutUs")
+    public String getAbout(Model model, Passwords passwords ){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
+        model.addAttribute("role",authorisedUser.getRole());
 
+
+
+
+
+        return "about";
+    }
     @GetMapping(value="/editUser/password")
     public String getEditPassword(Model model, Passwords passwords ){
         Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
         model.addAttribute("role",authorisedUser.getRole());
 
 
@@ -146,8 +172,9 @@ public class UserController {
 
     @PostMapping(value="/editUser/password")
     public String setEditPassword(ServletRequest request, Model model, @Valid Passwords passwords, BindingResult result ) throws NoSuchAlgorithmException {
-        System.out.println("Error post mapping -false");
+
         Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+
 
         if(null != request.getParameter("saveButton")){
             System.out.println(result.getAllErrors());
@@ -158,7 +185,7 @@ public class UserController {
                     return "redirect:/user";
                 }
                 else {
-                    System.out.println(authorisedUser.getUsername());
+
                     model.addAttribute("error", "Wrong old password");
                 }
 

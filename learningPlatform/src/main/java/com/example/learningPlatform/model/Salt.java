@@ -12,10 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Salt {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(value = AccessLevel.NONE)
     @Column(name = "id", updatable = false, nullable = false, unique=true)
-    private long sid;
+    private int sid;
     @Column(name = "Salt")
     private byte[] salt;
     @OneToOne(mappedBy = "salt")

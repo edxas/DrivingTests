@@ -9,10 +9,13 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
+
 @Table(name = "users")
 @Entity
 @Data
 @NoArgsConstructor
+
 public class Users {
 
     @Id
@@ -50,6 +53,8 @@ public class Users {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "saltid", referencedColumnName = "id")
     private Salt salt;
+    @OneToMany(mappedBy="user_id")
+    private Collection<Tests> userTests;
 
     public Users(String name, String surname, String role, String email, String username, String hashPassword, String password, Salt salt) {
         this.email = email;
