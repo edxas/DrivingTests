@@ -1,4 +1,3 @@
-
 INSERT INTO salt(Salt) VALUES (X'3ACC7DC48D5CD6782646B0F72BB4AA91');
 INSERT INTO users (Role, Name, Surname, Email, Username, Password,HashPassword,saltid ) VALUES ('admin', 'Jonas', 'Kazlauskas', 'jonas@gmail.com', 'felix1',null,'1d353c892dc27539f113e82be283017b8a828593e493c047ac8c0d53e3f8e3c8d5c61a4ce218ceb7f57bb66cd69da32be38053b8c6dad187cfeb60edb2217650',1);
 --Admin1#2
