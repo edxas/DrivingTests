@@ -3,6 +3,7 @@ package com.example.learningPlatform.controllers;
 import com.example.learningPlatform.model.Question;
 import com.example.learningPlatform.model.Topic;
 import com.example.learningPlatform.model.Users;
+import com.example.learningPlatform.service.IDrivingLearningPlatformService;
 import com.example.learningPlatform.services.QuestionService;
 import com.example.learningPlatform.tempClass.Passwords;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +25,14 @@ import java.util.Arrays;
 public class QuestionController {
     @Autowired
     QuestionService service;
+    @Autowired
+    IDrivingLearningPlatformService drivingLearningPlatformService;
     @GetMapping("/seeQuestions")
-    public String seeQuestions(Model model) throws IOException {
+    public String seeQuestions(Users user, Model model) throws IOException {
+
+        user = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("user",user);
+
         LOG.info("Retrieving all questions");
         System.out.println("Retrieving all questions: the system out version");
         ArrayList<Question> questions = service.getQuestions();
