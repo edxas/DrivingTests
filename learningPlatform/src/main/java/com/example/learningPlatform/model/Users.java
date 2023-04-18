@@ -53,7 +53,7 @@ public class Users {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "saltid", referencedColumnName = "id")
     private Salt salt;
-    @OneToMany(mappedBy="user_id")
+    @OneToMany(mappedBy="userid")
     private Collection<Tests> userTests;
 
     public Users(String name, String surname, String role, String email, String username, String hashPassword, String password, Salt salt) {

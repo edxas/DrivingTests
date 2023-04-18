@@ -22,7 +22,9 @@ public class HomeController {
     public  String getHome(Users user, Model model){
         user = drivingLearningPlatformService.getAuthorisedUser();
 
+        model.addAttribute("role",user.getRole());
         model.addAttribute("user",user);
+
         return "home";
     }
 
@@ -38,9 +40,7 @@ public class HomeController {
         }
         if(null != request.getParameter("logOut")){
             drivingLearningPlatformService.logOut();
-            user = drivingLearningPlatformService.getAuthorisedUser();
-            model.addAttribute("user",user);
-            return "home";
+            return "redirect:/home";
         }
         if(null != request.getParameter("mock")){
 

@@ -137,7 +137,7 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
     public int generateRandomTest() {
         ArrayList<Questions>  questions= questionDataService.findAll();
         ArrayList<Questions> testQuestions = new ArrayList<>();
-        for (int i =0; i<7; i++){
+        for (int i =0; i<5; i++){
             testQuestions.add(questions.remove((int)Math.floor(Math.random() *(questions.size()) )));
 
         }
@@ -179,8 +179,8 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
                 correctAnswersString = correctAnswersString.substring(1,correctAnswersString.length()-1);
             }
             String[] correctAnswers= null;
-            if(correctAnswersString.contains(",")){
-                correctAnswers=correctAnswersString.split(",");
+            if(correctAnswersString.contains(", ")){
+                correctAnswers=correctAnswersString.split(", ");
             }
             else {
                 correctAnswers= new String[]{correctAnswersString};
@@ -203,6 +203,7 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
                         isEqual = true;
                         break;
                     }
+
                 }
                 tempIsCorrect.add(isEqual);
 
@@ -226,5 +227,170 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
         testRepo.save(test1);
         return  score;
 
+    }
+
+    @Override
+    public int generateSignTest() {
+        ArrayList<Questions>  questions= questionDataService.findAllByTopic(Topic.signs.name());
+        ArrayList<Questions> testQuestions = new ArrayList<>();
+        for (int i =0; i<5; i++){
+            testQuestions.add(questions.remove((int)Math.floor(Math.random() *(questions.size()) )));
+
+        }
+
+        testRepo.save(new Tests(Topic.signs.name(), testQuestions,getAuthorisedUser()));
+
+        return testRepo.findTopByOrderByIdDesc().getId();
+    }
+
+    @Override
+    public int generatePriorityTest() {
+        ArrayList<Questions>  questions= questionDataService.findAllByTopic(Topic.driving_priority.name());
+        ArrayList<Questions> testQuestions = new ArrayList<>();
+        for (int i =0; i<5; i++){
+            testQuestions.add(questions.remove((int)Math.floor(Math.random() *(questions.size()) )));
+
+        }
+
+        testRepo.save(new Tests(Topic.driving_priority.name(), testQuestions,getAuthorisedUser()));
+
+        return testRepo.findTopByOrderByIdDesc().getId();
+    }
+
+    @Override
+    public ArrayList<Tests> getTestByUserId(int id) {
+
+        return testRepo.findAllByUseridId(id);
+    }
+
+    @Override
+    public double calculateAvgScore(int id) {
+        ArrayList<Tests> tests= testRepo.findAllByUseridId(id);
+        ArrayList<Double> scores = new ArrayList<>();
+        for (Tests test : tests) {
+            scores.add(test.getScore());
+
+        }
+        double avgScore = 0;
+        for (int i = 0; i < scores.size(); i++) {
+            avgScore = avgScore+ scores.get(i);
+
+        }
+        if(avgScore != 0){
+            avgScore = avgScore/scores.size();
+            avgScore= Math.round(avgScore * 100.0) / 100.0;
+
+            return avgScore;
+        }
+
+        return 0;
+    }
+
+    @Override
+    public double calculateAvgScoreRandom(int id) {
+        ArrayList<Tests> tests= testRepo.findAllByUseridIdAndTopic(id,Topic.random.name());
+        ArrayList<Double> scores = new ArrayList<>();
+        for (Tests test : tests) {
+            scores.add(test.getScore());
+
+        }
+        double avgScore = 0;
+        for (int i = 0; i < scores.size(); i++) {
+            avgScore = avgScore+ scores.get(i);
+
+        }
+        if(avgScore != 0){
+            avgScore = avgScore/scores.size();
+            avgScore= Math.round(avgScore * 100.0) / 100.0;
+
+            return avgScore;
+        }
+
+        return 0;
+    }
+    @Override
+    public double calculateAvgScoreSigns(int id) {
+        ArrayList<Tests> tests= testRepo.findAllByUseridIdAndTopic(id,Topic.signs.name());
+        ArrayList<Double> scores = new ArrayList<>();
+        for (Tests test : tests) {
+            scores.add(test.getScore());
+
+        }
+        double avgScore = 0;
+        for (int i = 0; i < scores.size(); i++) {
+            avgScore = avgScore+ scores.get(i);
+
+        }
+        if(avgScore != 0){
+            avgScore = avgScore/scores.size();
+            avgScore= Math.round(avgScore * 100.0) / 100.0;
+
+            return avgScore;
+        }
+
+        return 0;
+    }
+    @Override
+    public double calculateAvgScorePriority(int id) {
+        ArrayList<Tests> tests= testRepo.findAllByUseridIdAndTopic(id,Topic.driving_priority.name());
+        ArrayList<Double> scores = new ArrayList<>();
+        for (Tests test : tests) {
+            scores.add(test.getScore());
+
+        }
+        double avgScore = 0;
+        for (int i = 0; i < scores.size(); i++) {
+            avgScore = avgScore+ scores.get(i);
+
+        }
+        if(avgScore != 0){
+            avgScore = avgScore/scores.size();
+            avgScore= Math.round(avgScore * 100.0) / 100.0;
+
+            return avgScore;
+        }
+
+        return 0;
+    }
+
+    @Override
+    public double calculateDifferenceBetweenTwoRandom(int id) {
+        ArrayList<Tests> tests= testRepo.findTop2ByUseridIdAndTopicOrderByIdDesc(id,Topic.random.name());
+        if(tests.size()>=2){
+            double score1= tests.get(0).getScore();
+            double score2= tests.get(1).getScore();
+
+            return score1-score2;
+        }
+        return 0;
+    }
+
+    @Override
+    public double calculateDifferenceBetweenTwoSigns(int id) {
+        ArrayList<Tests> tests= testRepo.findTop2ByUseridIdAndTopicOrderByIdDesc(id,Topic.signs.name());
+        if(tests.size()>=2){
+            double score1= tests.get(0).getScore();
+            double score2= tests.get(1).getScore();
+
+            return score1-score2;
+        }
+        return 0;
+    }
+
+    @Override
+    public double calculateDifferenceBetweenTwoPriority(int id) {
+        ArrayList<Tests> tests= testRepo.findTop2ByUseridIdAndTopicOrderByIdDesc(id,Topic.driving_priority.name());
+        if(tests.size()>=2){
+            double score1= tests.get(0).getScore();
+            double score2= tests.get(1).getScore();
+
+            return score1-score2;
+        }
+        return 0;
+    }
+
+    @Override
+    public ArrayList<Tests> getTenTestByUserId(int id) {
+        return testRepo.findTop10ByUseridIdOrderByIdDesc(id);
     }
 }

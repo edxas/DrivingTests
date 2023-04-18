@@ -23,11 +23,11 @@ background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
 height: 100vh;
 ">
 
-    <div class="vh-100 d-flex rounded bg-light container"  >
+    <div class="vh-100 rounded bg-light container"  >
 
-        <form class="w-100" action="#" th:action="@{/test/question/__${id}__}" method="post">
+        <form class="w-100" action="#" th:action="@{/home}" method="post">
             <div class="collapse navbar-dark bg-dark"  id="navbarToggleExternalContent">
-                <div class="" th:if="${role == 'guest'}">
+                <div class="px-2" th:if="${role == 'guest'}">
 
                     <div class="d-flex justify-content-end p-3" >
                         <button name="logIN" type="submit" class="btn btn-primary">Log in</button>
@@ -43,11 +43,11 @@ height: 100vh;
 
                 </div>
 
-                <div class="w-100 mx-2" th:unless="${role == 'guest'}">
+                <div class="w-100 px-2" th:unless="${role == 'guest'}">
                     <div class="d-flex justify-content-end p-3" >
                         <button name="logOut" type="submit" class="btn btn-primary">Log out</button>
                     </div>
-                <div class="mx-4">
+                <div class="">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/home"><span class="bi bi-house-fill"></span></a>
@@ -77,6 +77,9 @@ height: 100vh;
                                     <li><a class="dropdown-item" href="/tests/driving_priority">Driving priority</a></li>
                                 </ul>
                             </li>
+                        <li class="nav-item" th:if="${role == 'admin'}">
+                            <a class="nav-link" href="/seeQuestions">All questions</a>
+                        </li>
 
                             <li class="nav-item" th:if="${role == 'admin'}">
                                 <a class="nav-link" href="/admin">Admin profile</a>
@@ -98,6 +101,8 @@ height: 100vh;
                     </button>
                 </div>
             </nav>
+        </form>
+            <form class="w-100" action="#" th:action="@{/test/question/__${id}__}" method="post">
             <table class="table table-borderless table-striped mx-auto">
                 <thead>
                 <tr>
@@ -106,6 +111,7 @@ height: 100vh;
                 </tr>
                 <tr>
                     <th>Nr.</th>
+                    <th>Question</th>
                     <th>Correct answer</th>
                     <th>Your answer</th>
                     <th>Is correct?</th>
@@ -114,7 +120,8 @@ height: 100vh;
                 <tbody>
 
                 <tr th:each="question,iter: ${questions}">
-                    <th th:text="${iter.index}"></th>
+                    <th th:text="${iter.index}+1"></th>
+                    <td th:text="${question.question}"></td>
                     <td th:text="${question.correct_answers[0]}"></td>
                     <td th:text="${userAnswers[iter.index]}"></td>
                     <td class="text-success" th:if="${isCorrect[iter.index]==true}">Correct</td>
@@ -136,6 +143,13 @@ height: 100vh;
 
     </div>
 </div>
+</div>
+<div class="bg-image" style="
+background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
+height: 100vh;
+">
+    <div class="vh-100  rounded bg-light container"  >
+    </div>
 </div>
 </body>
 </html>

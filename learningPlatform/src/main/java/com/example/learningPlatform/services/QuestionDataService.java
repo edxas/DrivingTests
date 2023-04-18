@@ -13,5 +13,6 @@ public interface QuestionDataService extends CrudRepository<Questions, Integer> 
     void deleteById(int id);
 
     ArrayList<Questions> findAll();
+    ArrayList<Questions> findAllByTopic(String topic);
     ArrayList<Questions> findAllByTestslistId(int id);
 }

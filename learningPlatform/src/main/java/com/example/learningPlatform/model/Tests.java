@@ -27,8 +27,8 @@ public class Tests {
     private String topic;
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "user_id")
-    private Users user_id;
+    @JoinColumn(name = "userid")
+    private Users userid;
 
     @ManyToMany
     @JoinTable(
@@ -41,20 +41,20 @@ public class Tests {
         this.score = score;
         this.questionsList = questions;
         this.topic = topic;
-        this.user_id = user;
+        this.userid = user;
         this.user_chosen_answer_list = userChosenAnswerList;
     }
     public Tests(  String topic, ArrayList<Questions> questions, Users user){
 
         this.questionsList = questions;
         this.topic = topic;
-        this.user_id = user;
+        this.userid = user;
     }
     public Tests(  String topic,  Users user){
 
 
         this.topic = topic;
-        this.user_id = user;
+        this.userid = user;
     }
 
 

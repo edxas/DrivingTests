@@ -22,14 +22,12 @@ background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
 height: 100vh;
 ">
 
-    <div class="vh-100 d-flex rounded bg-light container"  >
-
-        <form class="w-100 " action="#" th:action="@{/user}" method="post">
+    <div class="vh-100  rounded bg-light container"  >
+        <form class="w-100 " action="#" th:action="@{/home}"  method="post">
 
             <div class="d-flex justify-content-end p-3" >
                 <button name="logOut" type="submit" class="btn btn-primary">Log out</button>
             </div>
-
             <nav class="navbar navbar-light navbar-expand-md " style="background-color: #e3f2fd;">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#"></a>
@@ -42,7 +40,7 @@ height: 100vh;
                                 <a class="nav-link active" aria-current="page" href="/home"><span class="bi bi-house-fill"></span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/about us">About us</a>
+                                <a class="nav-link" href="/aboutUs">About us</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="/theory/allTopics" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,11 +63,14 @@ height: 100vh;
                                     <li><a class="dropdown-item" href="/tests/driving_priority">Driving priority</a></li>
                                 </ul>
                             </li>
+                            <li class="nav-item" th:if="${role == 'admin'}">
+                                <a class="nav-link" href="/seeQuestions">All questions</a>
+                            </li>
 
-                            <li class="nav-item" th:if="${user.role == 'admin'}">
+                            <li class="nav-item" th:if="${role == 'admin'}">
                                 <a class="nav-link" href="/admin">Admin profile</a>
                             </li>
-                            <li class="nav-item" th:if="${user.role == 'user'}">
+                            <li class="nav-item" th:if="${role == 'user'}">
                                 <a class="nav-link" href="/user">User profile</a>
                             </li>
 
@@ -78,6 +79,14 @@ height: 100vh;
                 </div>
 
             </nav>
+
+
+
+        </form>
+
+        <form class="w-100 " action="#" th:action="@{/user}" method="post">
+
+
 
 
             <table class="table table-borderless table-striped mx-auto">

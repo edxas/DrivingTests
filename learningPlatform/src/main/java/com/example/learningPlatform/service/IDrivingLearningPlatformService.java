@@ -23,4 +23,16 @@ public interface IDrivingLearningPlatformService {
     void saveChosenAnswers(ArrayList<String> chosenAnswers, int id);
     Tests getTestById(int id);
     double calculateResult( ArrayList<Questions> questions,ArrayList<String> answers, ArrayList<Boolean> isCorect, int id);
+    int generateSignTest ();
+    int generatePriorityTest ();
+    ArrayList<Tests> getTestByUserId(int id);
+    double calculateAvgScore(int id);
+    double calculateAvgScoreRandom(int id);
+    double calculateAvgScoreSigns(int id);
+    double calculateAvgScorePriority(int id);
+    double calculateDifferenceBetweenTwoRandom(int id);
+    double calculateDifferenceBetweenTwoSigns(int id);
+    double calculateDifferenceBetweenTwoPriority(int id);
+    ArrayList<Tests> getTenTestByUserId(int id);
+
 }

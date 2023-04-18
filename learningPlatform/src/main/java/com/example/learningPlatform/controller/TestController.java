@@ -31,6 +31,9 @@ public class TestController {
 
         Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
         testSize = questions.size();
+        if(authorisedUser.getRole()=="guest" && id !=1){
+            return "redirect:/home";
+        }
 
         if(questions != null){
             question1 = questions.remove(0);
@@ -62,24 +65,11 @@ public class TestController {
         if(answersString.contains("[")){
             answersString = answersString.substring(1,answersString.length()-1);
         }
-        String[] temp=answersString.split(",");
+        String[] temp=answersString.split(", ");
         for (int i=0; i<temp.length; i++){
             chosenAnswers.add(request.getParameter(""+i) != null);
         }
-        if(null != request.getParameter("signUP")){
 
-            return "redirect:/newUser";
-        }
-        if(null != request.getParameter("logIN")){
-
-            return "redirect:/login";
-        }
-
-        if(null != request.getParameter("logOut")){
-            drivingLearningPlatformService.logOut();
-
-            return "redirect:/home";
-        }
         authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
 
 
@@ -122,7 +112,7 @@ public class TestController {
         if(answersString.contains("[")){
             answersString = answersString.substring(1,answersString.length()-1);
         }
-        model.addAttribute("answers",answersString.split(","));
+        model.addAttribute("answers",answersString.split(", "));
         model.addAttribute("question1", question1);
         model.addAttribute("image", null);
         return "question-template";
@@ -166,4 +156,112 @@ public class TestController {
 
         return "result";
     }
+
+    @GetMapping(value="/tests/signs")
+    public String getSignTest(Model model){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
+
+
+        return "signs-test";
+    }
+    @PostMapping(value="/tests/signs")
+    public String setSignTest(ServletRequest request,Model model){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        if(null != request.getParameter("start")) {
+            return "redirect:/test/question/"+drivingLearningPlatformService.generateSignTest();
+        }
+
+
+        return "signs-test";
+    }
+
+    @GetMapping(value="/tests/driving_priority")
+    public String getPriorityTest(Model model){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
+
+
+        return "priority-test";
+    }
+    @PostMapping(value="/tests/driving_priority")
+    public String setPriorityTest(ServletRequest request,Model model){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        if(null != request.getParameter("start")) {
+            return "redirect:/test/question/"+drivingLearningPlatformService.generatePriorityTest();
+        }
+
+
+        return "priority-test";
+    }
+
+    @GetMapping(value="/tests/random")
+    public String getRandomTest(Model model){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
+
+
+        return "random-test";
+    }
+    @PostMapping(value="/tests/random")
+    public String setRandomTest(ServletRequest request,Model model){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        if(null != request.getParameter("start")) {
+            return "redirect:/test/question/"+drivingLearningPlatformService.generateRandomTest();
+        }
+
+
+        return "random-test";
+    }
+
+    @GetMapping(value="/tests/allTests")
+    public String getAllTest(Model model){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
+
+        ArrayList<Tests> tests = drivingLearningPlatformService.getTestByUserId(authorisedUser.getId());
+        if (tests.size()>10){
+            tests = drivingLearningPlatformService.getTenTestByUserId(authorisedUser.getId());
+        }
+        model.addAttribute("tests",tests);
+
+        double avgScore = 0.0;
+        double avgScoreSigns = 0.0;
+        double avgScorePriority = 0.0;
+        double avgScoreRandom = 0.0;
+        avgScore=drivingLearningPlatformService.calculateAvgScore(authorisedUser.getId());
+        avgScoreRandom = drivingLearningPlatformService.calculateAvgScoreRandom(authorisedUser.getId());
+        avgScorePriority = drivingLearningPlatformService.calculateAvgScorePriority(authorisedUser.getId());
+        avgScoreSigns = drivingLearningPlatformService.calculateAvgScoreSigns(authorisedUser.getId());
+        model.addAttribute("avgScore",avgScore);
+        model.addAttribute("avgScoreS",avgScoreSigns);
+        model.addAttribute("avgScoreP",avgScorePriority);
+        model.addAttribute("avgScoreR",avgScoreRandom);
+        double diffRandom = drivingLearningPlatformService.calculateDifferenceBetweenTwoRandom(authorisedUser.getId());
+        model.addAttribute("diffRandom", diffRandom);
+        double diffSigns = drivingLearningPlatformService.calculateDifferenceBetweenTwoSigns(authorisedUser.getId());
+        model.addAttribute("diffSigns", diffSigns);
+        double diffPr = drivingLearningPlatformService.calculateDifferenceBetweenTwoPriority(authorisedUser.getId());
+        model.addAttribute("diffPr", diffPr);
+
+
+
+        return "all-tests";
+    }
+
 }

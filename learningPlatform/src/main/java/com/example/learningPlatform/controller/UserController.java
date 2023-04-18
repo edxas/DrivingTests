@@ -59,35 +59,32 @@ public class UserController {
 
     @GetMapping(value="/user")
     public String getUser(Model model, Users user){
-        user = drivingLearningPlatformService.getAuthorisedUser();
-        model.addAttribute("user",user);
-        if(user.getRole()=="guest"){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        if(authorisedUser.getRole()=="guest"){
             return "redirect:/home";
         }
+        model.addAttribute("user",authorisedUser);
+
 
         return "user-profile";
     }
 
     @PostMapping(value="/user")
-    public String setUser(ServletRequest request, Model model,Users user , RedirectAttributes redirAttr) throws NoSuchAlgorithmException {
+    public String setUser(ServletRequest request, Model model, RedirectAttributes redirAttr) throws NoSuchAlgorithmException {
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+        model.addAttribute("user",authorisedUser);
 
-        user = drivingLearningPlatformService.getAuthorisedUser();
-
-
-        if(null != request.getParameter("logOut")){
-            drivingLearningPlatformService.logOut();
-
-            return "redirect:/home";
-        }
         if(null != request.getParameter("edit")){
-            redirAttr.addFlashAttribute("user",user);
 
-            return "redirect:/editUser/"+user.getId() +"/";
+            return "redirect:/editUser/"+authorisedUser.getId() +"/";
         }
         if(null != request.getParameter("password")){
 
             return "redirect:/editUser/password";
         }
+
 
 
         return "user-profile";
@@ -114,7 +111,7 @@ public class UserController {
     @PostMapping(value="/editUser/{id}/")
     public String setEditUser(ServletRequest request,Users authorisedUser, @PathVariable(name = "id") int id,Model model, @Valid Users users, BindingResult result ) throws NoSuchAlgorithmException {
 
-        System.out.println(result.getAllErrors());
+
         if(null != request.getParameter("save")){
 
             if(!result.hasErrors()){
@@ -128,11 +125,6 @@ public class UserController {
 
         }
 
-        if(null != request.getParameter("logOut")){
-            drivingLearningPlatformService.logOut();
-
-            return "redirect:/home";
-        }
 
         authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
 
@@ -142,7 +134,7 @@ public class UserController {
         return "edit-user";
     }
     @GetMapping(value="/aboutUs")
-    public String getAbout(Model model, Passwords passwords ){
+    public String getAbout(Model model ){
         Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
         if(authorisedUser.getRole()=="guest"){
             return "redirect:/home";
@@ -154,6 +146,42 @@ public class UserController {
 
 
         return "about";
+    }
+    @GetMapping(value="/theory/allTopics")
+    public String getTheory(Model model ){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
+        model.addAttribute("role",authorisedUser.getRole());
+
+
+
+
+
+        return "theory";
+    }
+    @GetMapping(value="/theory/driving_priority")
+    public String getTheoryPr(Model model ){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
+        model.addAttribute("role",authorisedUser.getRole());
+
+
+        return "theory-priority";
+    }
+    @GetMapping(value="/theory/signs")
+    public String getTheorySigns(Model model ){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        if(authorisedUser.getRole()=="guest"){
+            return "redirect:/home";
+        }
+        model.addAttribute("role",authorisedUser.getRole());
+
+
+        return "theory-signs";
     }
     @GetMapping(value="/editUser/password")
     public String getEditPassword(Model model, Passwords passwords ){
@@ -194,11 +222,7 @@ public class UserController {
 
         }
 
-        if(null != request.getParameter("logOut")){
-            drivingLearningPlatformService.logOut();
 
-            return "redirect:/home";
-        }
         authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
 
         model.addAttribute("role",authorisedUser.getRole());

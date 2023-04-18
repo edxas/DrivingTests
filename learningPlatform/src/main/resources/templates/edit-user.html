@@ -23,13 +23,11 @@ height: 100vh;
 ">
 
     <div class="vh-100  rounded bg-light container"  >
-
-        <form class="w-100 mb-1" action="#" th:action="@{/editUser/__${id}__/}" method="post">
+        <form class="w-100 " action="#" th:action="@{/home}"  method="post">
 
             <div class="d-flex justify-content-end p-3" >
                 <button name="logOut" type="submit" class="btn btn-primary">Log out</button>
             </div>
-
             <nav class="navbar navbar-light navbar-expand-md " style="background-color: #e3f2fd;">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#"></a>
@@ -65,11 +63,14 @@ height: 100vh;
                                     <li><a class="dropdown-item" href="/tests/driving_priority">Driving priority</a></li>
                                 </ul>
                             </li>
+                            <li class="nav-item" th:if="${role == 'admin'}">
+                                <a class="nav-link" href="/seeQuestions">All questions</a>
+                            </li>
 
-                            <li class="nav-item" th:if="${authorisedUser.role == 'admin'}">
+                            <li class="nav-item" th:if="${role == 'admin'}">
                                 <a class="nav-link" href="/admin">Admin profile</a>
                             </li>
-                            <li class="nav-item" th:if="${authorisedUser.role == 'user'}">
+                            <li class="nav-item" th:if="${role == 'user'}">
                                 <a class="nav-link" href="/user">User profile</a>
                             </li>
 
@@ -78,6 +79,14 @@ height: 100vh;
                 </div>
 
             </nav>
+
+
+
+        </form>
+
+        <form class="w-100 mb-1" action="#" th:action="@{/editUser/__${id}__/}" method="post">
+
+
             <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 
                 <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">

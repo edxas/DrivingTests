@@ -23,11 +23,11 @@ background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
 height: 100vh;
 ">
 
-    <div class="vh-100 d-flex rounded bg-light container"  >
+    <div class="vh-100 rounded bg-light container"  >
 
-        <form class="w-100" action="#" th:action="@{/test/question/__${id}__}" method="post">
+        <form class="w-100" action="#" th:action="@{/home}" method="post">
             <div class="collapse navbar-dark bg-dark"  id="navbarToggleExternalContent">
-                <div class="" th:if="${role == 'guest'}">
+                <div class="px-2" th:if="${role == 'guest'}">
 
                     <div class="d-flex justify-content-end p-3" >
                         <button name="logIN" type="submit" class="btn btn-primary">Log in</button>
@@ -40,16 +40,16 @@ height: 100vh;
                             </li>
                         </ul>
                     </div>
-                    <div class="mx=4">
+                    <div >
                         <span th:text="${actualSize}" class="text-success"></span> <span class="text-light">:</span><span class="text-light" th:text="${size}"></span>
                     </div>
                 </div>
 
-                <div class="w-100 mx-4" th:unless="${role == 'guest'}">
+                <div class="w-100 px-2" th:unless="${role == 'guest'}">
                     <div class="d-flex justify-content-end p-3" >
                         <button name="logOut" type="submit" class="btn btn-primary">Log out</button>
                     </div>
-                <div class="mx-4">
+                <div >
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/home"><span class="bi bi-house-fill"></span></a>
@@ -79,6 +79,9 @@ height: 100vh;
                                     <li><a class="dropdown-item" href="/tests/driving_priority">Driving priority</a></li>
                                 </ul>
                             </li>
+                        <li class="nav-item" th:if="${role == 'admin'}">
+                            <a class="nav-link" href="/seeQuestions">All questions</a>
+                        </li>
 
                             <li class="nav-item" th:if="${role == 'admin'}">
                                 <a class="nav-link" href="/admin">Admin profile</a>
@@ -102,6 +105,8 @@ height: 100vh;
                     </button>
                 </div>
             </nav>
+        </form>
+            <form class="w-100" action="#" th:action="@{/test/question/__${id}__}" method="post">
             <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 
                 <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
@@ -122,15 +127,15 @@ height: 100vh;
                             <img th:if="${image}==null" src="https://static.vecteezy.com/system/resources/previews/001/894/304/original/man-avatar-thinking-with-question-marks-design-free-vector.jpg" class="card-img"  style="height: 21rem" alt="...">
 
                             <div class="card-img-overlay">
-                                <button type="button" class="btn btn-lg btn-outline-info" data-bs-toggle="popover" th:data-bs-content="${question1.hint}">Hint</button>
+                                <button type="button" class="btn btn-lg btn-outline-info" th:unless="${question1.hint== null}" data-bs-toggle="popover" th:data-bs-content="${question1.hint}">Hint</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-1">
-                        <div class="card" style="height: 21rem">
+                        <div class="card" >
                             <div class="card-body ">
                                 <h3 th:text = "${question1.question}"></h3>
-                                <table class="table m-4 table-borderless ">
+                                <table class="table mx-1 table-borderless ">
                                     <tr th:each="answer,iter: ${answers}">
                                         <td>
                                             <div class="form-check">
@@ -180,6 +185,13 @@ height: 100vh;
 
     </div>
 </div>
+</div>
+<div class="bg-image" style="
+background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
+height: 100vh;
+">
+    <div class="vh-100  rounded bg-light container"  >
+    </div>
 </div>
 </body>
 </html>

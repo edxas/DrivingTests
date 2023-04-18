@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Edit password</title>
+    <title>Theory </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1 ">
     <link rel="stylesheet" href="http://localhost:8080/style.css" type="text/css"/>
@@ -84,62 +84,51 @@ height: 100vh;
 
 
         </form>
-        <form class="w-100 " action="#" th:action="@{/editUser/password}" method="post">
-            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-
-                <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
-                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                </symbol>
-            </svg>
-            <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert" th:if="${error}">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                <div  th:text="${error}">
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-
-
-
-            <div class="mx-5 mt-5">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" ><i class="bi bi-lock-fill"></i></span>
-                    <input type="text" class="form-control" placeholder="Old password" aria-label="Old password"   aria-describedby="basic-addon1" th:field="*{passwords.oldPassword}" th:value="*{passwords.oldPassword}">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-unlock"></i></span>
-                    <input type="text" class="form-control" placeholder="New password" aria-label="New password" aria-describedby="basic-addon1" th:field="*{passwords.newPassword}" th:value="*{passwords.newPassword}">
-                </div>
-                <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center " role="alert" th:if="${#fields.hasErrors('passwords.newPassword')}" >
-                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                    <div th:errors="*{passwords.newPassword}" >
-
+        <div class="mt-3 mx-5">
+            <ul class="list-group list-group-numbered">
+                <li class="list-group-item  ">Give way to pedestrians crossing or waiting to cross a road into which or from which you are turning. If they have started to cross they have priority, so give way.</li>
+                <li class="list-group-item ">Remain behind cyclists, horse riders, horse drawn vehicles and motorcyclists at junctions even if they are waiting to turn and are positioned close to the kerb.</li>
+                <li class="list-group-item  ">Watch out for long vehicles which may be turning at a junction ahead; they may have to use the whole width of the road to make the turn.</li>
+                <li class="list-group-item ">The approach to a junction may have a ‘Give Way’ sign or a triangle marked on the road. You <span class="fw-bold">MUST</span> give way to traffic on the main road when emerging from a junction with broken white lines across the road.</li>
+                <li class="list-group-item "><span class="fw-bold">Dual carriageways. </span>When crossing or turning right, first assess whether the central reservation is deep enough to protect the full length of your vehicle.</li>
+                <li class="list-group-item  ">If it is, then you should treat each half of the carriageway as a separate road. Wait in the central reservation until there is a safe gap in the traffic on the second half of the road.</li>
+                <li class="list-group-item"><span class="fw-bold">Box junctions.</span> These have criss-cross yellow lines painted on the road . You <span class="fw-bold">MUST NOT</span> enter the box until your exit road or lane is clear. However, you may enter the box and wait when you want to turn right, and are only stopped from doing so by oncoming traffic, or by other vehicles waiting to turn right. At signalled roundabouts you <span class="fw-bold">MUST NOT</span> enter the box unless you can cross over it completely without stopping.</li>
+                <li class="list-group-item">You <span class="fw-bold">MUST NOT</span> move forward over the white line when the red light is showing. Only go forward when the traffic lights are green if there is room for you to clear the junction safely or you are taking up a position to turn right. If the traffic lights are not working, treat the situation as you would an unmarked junction and proceed with great care.</li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Turning right</div>
+                        <p>Well before you turn right you should</p>
+                        <ul>
+                            <li>use your mirrors to make sure you know the position and movement of traffic behind you</li>
+                            <li>give a right-turn signal</li>
+                            <li>take up a position just left of the middle of the road or in the space marked for traffic turning right</li>
+                            <li>leave room for other vehicles to pass on the left, if possible.</li>
+                        </ul>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-
-            </div>
-
-
-
-            <div class="w-100 d-flex justify-content-center">
-                <button name="saveButton" class="btn btn-info" type="submit">Save changes</button>
-            </div>
-
-
-
-
-
-
-
-
-
-        </form>
+                </li>
+                <li class="list-group-item">Wait until there is a safe gap between you and any oncoming vehicle. Watch out for cyclists, motorcyclists, pedestrians and other road users. Check your mirrors and blind spot again to make sure you are not being overtaken, then make the turn. Do not cut the corner. Take great care when turning into a main road; you will need to watch for traffic in both directions and wait for a safe gap.</li>
+            </ul>
+        </div>
 
 
 
 
     </div>
 </div>
+</div>
+<div class="bg-image" style="
+background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
+height: 100vh;
+">
+    <div class="vh-100  rounded bg-light container"  >
+    </div>
+</div>
+<div class="bg-image" style="
+background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
+height: 100vh;
+">
+    <div class="vh-100  rounded bg-light container"  >
+    </div>
 </div>
 </body>
 </html>
