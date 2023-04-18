@@ -2,6 +2,7 @@ package com.example.learningPlatform.model;
 
 
 import com.example.learningPlatform.repo.IUserRepo;
+import com.example.learningPlatform.services.UpdateValidation;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -46,8 +47,9 @@ public class Users {
     private String hashPassword;
 
 
+    @Transient
     @Column(name = "Password", insertable=false, updatable=false)
-    @NotBlank(message = "Not blank")
+    @NotBlank(message = "Not blank", groups = UpdateValidation.class)
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")
     private String password ;
     @OneToOne(cascade = CascadeType.ALL)
@@ -67,4 +69,13 @@ public class Users {
         setSalt(salt);
 
     }
+
+    public static String getSalt(Long userId) {
+        return null;
+    }
+
+    public void setSalt(Salt salt) {
+        this.salt = salt;
+    }
+
 }
