@@ -2,10 +2,10 @@ var n = 0;
 function addNewInputLine(){
         $(document).ready(function(){
        $("#answerParentElement").append(
-       "<div class=col-8 id=ans"+n+">"+
-            "<input type=text class=form-control name=answers required minlength=2></input>"+
-            "<input type=checkbox value=none name=correct_answers>"+
-            "<button onclick=deleteAnswer("+n+") name=deleteInputLine class=btn btn-default type=button >Remove answer</button>"+
+       "<div class='row mb-1' id=ans"+n+" >"+
+            "<div class=col-6><input type=text class=form-control name=answers required minlength=2></input></div>"+
+            "<div class=col-2><input type=checkbox value=none name=correct_answers></div>"+
+            "<div class=col-4><button onclick=deleteAnswer("+n+") name=deleteInputLine class='btn btn-danger' type=button >Remove answer</button></div>"+
        "</div>");
     });n++;
 }

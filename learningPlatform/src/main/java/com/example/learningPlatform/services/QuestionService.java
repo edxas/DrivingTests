@@ -52,7 +52,7 @@ public class QuestionService {
         String imageString = "";
         if(useData){
             byte[] image = question.getQuestion_photo();
-            if(image.length > 0){
+            if(image != null){
                 imageString = Base64.encodeBase64String(image);
                 LOG.info("The question has a picture");
             }else LOG.info("The question does not have a picture");
@@ -68,6 +68,22 @@ public class QuestionService {
             return;
         }
         questions.add(incoming);
+    }
+    public void updateQuestion(Questions incoming,int id) {
+        Questions question1 = getQuestion(id);
+        question1.setQuestion(incoming.getQuestion());
+        question1.setAnswers(incoming.getAnswers());
+        question1.setCorrect_answers(incoming.getCorrect_answers());
+        question1.setTopic(incoming.getTopic());
+        question1.setHint(incoming.getHint());
+
+        if(incoming.getQuestion_photo() != null) question1.setQuestion_photo(incoming.getQuestion_photo());
+        LOG.info(String.valueOf(useData));
+        if (useData) {
+            dataService.save(question1);
+            LOG.info("Added question: \n"+removeBlobForLogging(incoming).toString());
+        }
+        //questions.add(incoming);
     }
     public void deleteQuestionById(int id) {
         LOG.info(String.valueOf(useData));
@@ -92,6 +108,12 @@ public class QuestionService {
             return line;
         }
         return line;
+    }
+    public String[] convertToStringMatrix(String[] answers){
+        String line = answers[0];
+        //removing brackets and splitting it into parts at ; symbol
+        String[] newLine = line.substring(1,line.length()-1).split(";");
+        return newLine;
     }
     public void populateInitalUploadPhotos() throws IOException {
         if(loadCheck) { //1st load
@@ -126,7 +148,7 @@ public class QuestionService {
     //Creating a copy of a question and replacing BLOB data, so it does not flood the console (replacing only notEmpty pictures)
     public Questions removeBlobForLogging(Questions question){
         Questions questionSmall = new Questions(question.getTopic(),question.getQuestion(),question.getAnswers(), question.getCorrect_answers(),question.getHint(), question.getQuestion_photo());
-        if(questionSmall.getQuestion_photo().length > 0) questionSmall.setQuestion_photo("NotEmpty".getBytes());
+        if(questionSmall.getQuestion_photo() != null) questionSmall.setQuestion_photo("NotEmpty".getBytes());
         return questionSmall;
     }
 }

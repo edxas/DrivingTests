@@ -123,8 +123,12 @@ height: 100vh;
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="card bg-dark text-white" >
-                            <img th:unless="${image}==null" th:src="${image}" class="card-img"  style="height: 21rem" alt="...">
-                            <img th:if="${image}==null" src="https://static.vecteezy.com/system/resources/previews/001/894/304/original/man-avatar-thinking-with-question-marks-design-free-vector.jpg" class="card-img"  style="height: 21rem" alt="...">
+                            <div th:if="${image.length != 0}">
+                                <img th:src="@{'data:image/jpeg;charset=utf-8;base64,'+${image}}" class="card-img"  style="height: 21rem" alt="...">
+                            </div>
+                            <div th:if="${image.length == 0}">
+                                <img src="https://static.vecteezy.com/system/resources/previews/001/894/304/original/man-avatar-thinking-with-question-marks-design-free-vector.jpg" class="card-img"  style="height: 21rem" alt="...">
+                            </div>
 
                             <div class="card-img-overlay">
                                 <button type="button" class="btn btn-lg btn-outline-info" th:unless="${question1.hint== null}" data-bs-toggle="popover" th:data-bs-content="${question1.hint}">Hint</button>
