@@ -45,24 +45,12 @@ public class QuestionController {
     }
     @GetMapping("/addNewQuestion")
     public String createNewQuestion(Model model){
-        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
-
-        model.addAttribute("role",authorisedUser.getRole());
-        if(authorisedUser.getRole()=="guest" || authorisedUser.getRole()=="user" ){
-            return "redirect:/home";
-        }
         model.addAttribute("question", new Questions());
         model.addAttribute("topics", Topic.values());
         return "question-add";
     }
     @GetMapping(value = "/editQuestion/{id}")
     public String updateForm(@PathVariable int id, Model model) {
-        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
-
-        model.addAttribute("role",authorisedUser.getRole());
-        if(authorisedUser.getRole()=="guest" || authorisedUser.getRole()=="user" ){
-            return "redirect:/home";
-        }
         Questions question = service.getQuestion(id);
         if(question == null) return"redirect:/seeQuestions";
         String image = service.getQuestionBase64String(question);
@@ -97,7 +85,6 @@ public class QuestionController {
     @RequestMapping(value="/deleteQuestion/{id}", method={RequestMethod.DELETE, RequestMethod.GET})
     public String deleteQuestion(@PathVariable("id") int id) {
         service.deleteQuestionById(id);
-
         return"redirect:/seeQuestions";
     }
 }
