@@ -28,12 +28,11 @@ public class QuestionController {
     public String seeQuestions(Users user, Model model) throws IOException {
 
         Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
-
-
         if(authorisedUser.getRole()=="guest" || authorisedUser.getRole()=="user" ){
             return "redirect:/home";
         }
-
+        model.addAttribute("role",user.getRole());
+        model.addAttribute("user",user);
         LOG.info("Retrieving all questions");
         System.out.println("Retrieving all questions: the system out version");
         ArrayList<Questions> questions = service.getQuestions();
@@ -44,13 +43,17 @@ public class QuestionController {
         return "question-list";
     }
     @GetMapping("/addNewQuestion")
-    public String createNewQuestion(Model model){
+    public String createNewQuestion(Users user,Model model){
+        model.addAttribute("role",user.getRole());
+        model.addAttribute("user",user);
         model.addAttribute("question", new Questions());
         model.addAttribute("topics", Topic.values());
         return "question-add";
     }
     @GetMapping(value = "/editQuestion/{id}")
-    public String updateForm(@PathVariable int id, Model model) {
+    public String updateForm(Users user,@PathVariable int id, Model model) {
+        model.addAttribute("role",user.getRole());
+        model.addAttribute("user",user);
         Questions question = service.getQuestion(id);
         if(question == null) return"redirect:/seeQuestions";
         String image = service.getQuestionBase64String(question);
