@@ -2,6 +2,7 @@ package com.example.learningPlatform.controller;
 
 import com.example.learningPlatform.model.Questions;
 import com.example.learningPlatform.model.Tests;
+import com.example.learningPlatform.model.Topic;
 import com.example.learningPlatform.model.Users;
 import com.example.learningPlatform.service.impl.IDrivingLearningPlatformServiceImpl;
 import com.example.learningPlatform.services.QuestionService;
@@ -49,7 +50,9 @@ public class TestController {
         if(answersString.contains("[")){
             answersString = answersString.substring(1,answersString.length()-1);
         }
-        model.addAttribute("answers",answersString.split(","));
+        String[] temp=answersString.split("; ");
+        temp=answersString.split(";");
+        model.addAttribute("answers",temp);
         model.addAttribute("question1", question1);
         model.addAttribute("size",testSize);
         model.addAttribute("actualSize", 0);
@@ -62,6 +65,7 @@ public class TestController {
     @PostMapping(value="/test/question/{id}")
     public String setEditPassword(ServletRequest request, @PathVariable(name = "id") int id,ArrayList<String> answers, Model model) {
         ArrayList<Boolean> chosenAnswers = new ArrayList<>();
+
         Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
 
         int actualSize = testSize-questions.size();
@@ -69,7 +73,8 @@ public class TestController {
         if(answersString.contains("[")){
             answersString = answersString.substring(1,answersString.length()-1);
         }
-        String[] temp=answersString.split(", ");
+        String[] temp=answersString.split("; ");
+        temp=answersString.split(";");
         for (int i=0; i<temp.length; i++){
             chosenAnswers.add(request.getParameter(""+i) != null);
         }
@@ -84,14 +89,13 @@ public class TestController {
                     if(chosenAnswers.get(i) == true){
 
 
-                        temp2 = temp2+ temp[i]+";";
+                        temp2 = temp2+ temp[i]+"|";
 
                     }
 
 
                 }
                 userAnswers.add(temp2);
-                System.out.println(userAnswers);
 
                 if(questions.size()>0){
                     question1 = questions.remove(0);
@@ -116,11 +120,14 @@ public class TestController {
         if(answersString.contains("[")){
             answersString = answersString.substring(1,answersString.length()-1);
         }
-        model.addAttribute("answers",answersString.split(", "));
+        temp = answersString.split("; ");
+        temp = answersString.split(";");
+        model.addAttribute("answers",temp);
         model.addAttribute("question1", question1);
         //System.out.println(question1);
         String image = questionService.getQuestionBase64String(question1);
         model.addAttribute("image", image);
+
         return "question-template";
     }
 
@@ -142,7 +149,8 @@ public class TestController {
         if(chosenAnswersString.contains("[")){
             chosenAnswersString = chosenAnswersString.substring(1,chosenAnswersString.length()-1);
         }
-        String[] answersChosen=chosenAnswersString.split(",");
+        String[] answersChosen=chosenAnswersString.split("; ");
+        answersChosen=chosenAnswersString.split(";");
         model.addAttribute("userAnswers",answersChosen);
         model.addAttribute("isCorrect",isCorect);
         model.addAttribute("score", score);
@@ -258,11 +266,11 @@ public class TestController {
         model.addAttribute("avgScoreS",avgScoreSigns);
         model.addAttribute("avgScoreP",avgScorePriority);
         model.addAttribute("avgScoreR",avgScoreRandom);
-        double diffRandom = drivingLearningPlatformService.calculateDifferenceBetweenTwoRandom(authorisedUser.getId());
+        double diffRandom = drivingLearningPlatformService.calculateDifferenceBetweenTwo(authorisedUser.getId(), Topic.random.name());
         model.addAttribute("diffRandom", diffRandom);
-        double diffSigns = drivingLearningPlatformService.calculateDifferenceBetweenTwoSigns(authorisedUser.getId());
+        double diffSigns = drivingLearningPlatformService.calculateDifferenceBetweenTwo(authorisedUser.getId(), Topic.signs.name());
         model.addAttribute("diffSigns", diffSigns);
-        double diffPr = drivingLearningPlatformService.calculateDifferenceBetweenTwoPriority(authorisedUser.getId());
+        double diffPr = drivingLearningPlatformService.calculateDifferenceBetweenTwo(authorisedUser.getId(), Topic.driving_priority.name());
         model.addAttribute("diffPr", diffPr);
 
 

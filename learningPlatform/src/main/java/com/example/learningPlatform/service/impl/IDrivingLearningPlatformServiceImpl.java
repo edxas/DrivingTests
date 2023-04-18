@@ -150,7 +150,13 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
     @Override
     public void saveChosenAnswers(ArrayList<String> chosenAnswers, int id) {
         Tests test1 = testRepo.findById(id).get();
-        test1.setUser_chosen_answer_list(chosenAnswers);
+        String temp = "";
+        for (String chosenAnswer : chosenAnswers) {
+            temp = temp +chosenAnswer+";";
+        }
+        ArrayList<String> choses = new ArrayList<>();
+        choses.add(temp);
+        test1.setUser_chosen_answer_list(choses);
         testRepo.save(test1);
 
 
@@ -169,7 +175,8 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
             chosenAnswersString = chosenAnswersString.substring(1,chosenAnswersString.length()-1);
         }
 
-        String[] answersChosen=chosenAnswersString.split(", ");
+        String[] answersChosen=chosenAnswersString.split("; ");
+        answersChosen=chosenAnswersString.split(";");
 
         for (int i=0; i<questions.size(); i++) {
 
@@ -179,16 +186,17 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
                 correctAnswersString = correctAnswersString.substring(1,correctAnswersString.length()-1);
             }
             String[] correctAnswers= null;
-            if(correctAnswersString.contains(", ")){
-                correctAnswers=correctAnswersString.split(", ");
+            if(correctAnswersString.contains(";")){
+                correctAnswers=correctAnswersString.split("; ");
+                correctAnswers=correctAnswersString.split(";");
             }
             else {
                 correctAnswers= new String[]{correctAnswersString};
             }
             String[] answersChosen1= null;
 
-            if(answersChosen[i].contains(";")){
-                answersChosen1=answersChosen[i].split(";");
+            if(answersChosen[i].contains("|")){
+                answersChosen1=answersChosen[i].split("\\|");
             }
             else {
                 answersChosen1= new String[]{answersChosen[i]};
@@ -353,33 +361,10 @@ public class IDrivingLearningPlatformServiceImpl implements IDrivingLearningPlat
         return 0;
     }
 
-    @Override
-    public double calculateDifferenceBetweenTwoRandom(int id) {
-        ArrayList<Tests> tests= testRepo.findTop2ByUseridIdAndTopicOrderByIdDesc(id,Topic.random.name());
-        if(tests.size()>=2){
-            double score1= tests.get(0).getScore();
-            double score2= tests.get(1).getScore();
-
-            return score1-score2;
-        }
-        return 0;
-    }
 
     @Override
-    public double calculateDifferenceBetweenTwoSigns(int id) {
-        ArrayList<Tests> tests= testRepo.findTop2ByUseridIdAndTopicOrderByIdDesc(id,Topic.signs.name());
-        if(tests.size()>=2){
-            double score1= tests.get(0).getScore();
-            double score2= tests.get(1).getScore();
-
-            return score1-score2;
-        }
-        return 0;
-    }
-
-    @Override
-    public double calculateDifferenceBetweenTwoPriority(int id) {
-        ArrayList<Tests> tests= testRepo.findTop2ByUseridIdAndTopicOrderByIdDesc(id,Topic.driving_priority.name());
+    public double calculateDifferenceBetweenTwo(int id, String topic) {
+        ArrayList<Tests> tests= testRepo.findTop2ByUseridIdAndTopicOrderByIdDesc(id,topic);
         if(tests.size()>=2){
             double score1= tests.get(0).getScore();
             double score2= tests.get(1).getScore();

@@ -23,7 +23,7 @@ background-image: url('https://wallpapershome.com/images/pages/pic_h/6142.jpg');
 height: 100vh;
 ">
 
-    <div class="vh-100 rounded bg-light container"  >
+    <div class="vh-100 rounded bg-light container"  onbeforeunload = "backButtonEvent()">
 
         <form class="w-100" action="#" th:action="@{/home}" method="post">
             <div class="collapse navbar-dark bg-dark"  id="navbarToggleExternalContent">
@@ -81,9 +81,12 @@ height: 100vh;
                             <a class="nav-link" href="/seeQuestions">All questions</a>
                         </li>
 
-                            <li class="nav-item" th:if="${role == 'admin'}">
-                                <a class="nav-link" href="/admin">Admin profile</a>
-                            </li>
+                        <li class="nav-item" th:if="${role == 'admin'}">
+                            <a class="nav-link" href="/user">Admin profile</a>
+                        </li>
+                        <li class="nav-item" th:if="${role == 'admin'}">
+                            <a class="nav-link" href="/admin">Admin dashboard</a>
+                        </li>
                             <li class="nav-item" th:if="${role == 'user'}">
                                 <a class="nav-link" href="/user">User profile</a>
                             </li>

@@ -27,8 +27,12 @@ public class QuestionController {
     @GetMapping("/seeQuestions")
     public String seeQuestions(Users user, Model model) throws IOException {
 
-        user = drivingLearningPlatformService.getAuthorisedUser();
-        model.addAttribute("user",user);
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+
+
+        if(authorisedUser.getRole()=="guest" || authorisedUser.getRole()=="user" ){
+            return "redirect:/home";
+        }
 
         LOG.info("Retrieving all questions");
         System.out.println("Retrieving all questions: the system out version");
@@ -41,12 +45,23 @@ public class QuestionController {
     }
     @GetMapping("/addNewQuestion")
     public String createNewQuestion(Model model){
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+
+        if(authorisedUser.getRole()=="guest" || authorisedUser.getRole()=="user" ){
+            return "redirect:/home";
+        }
         model.addAttribute("question", new Questions());
         model.addAttribute("topics", Topic.values());
         return "question-add";
     }
     @GetMapping(value = "/editQuestion/{id}")
     public String updateForm(@PathVariable int id, Model model) {
+        Users authorisedUser = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",authorisedUser.getRole());
+
+        if(authorisedUser.getRole()=="guest" || authorisedUser.getRole()=="user" ){
+            return "redirect:/home";
+        }
         Questions question = service.getQuestion(id);
         if(question == null) return"redirect:/seeQuestions";
         String image = service.getQuestionBase64String(question);
@@ -72,6 +87,7 @@ public class QuestionController {
     }
     @PostMapping("/editQuestion/{id}")
     public String updateQuestions(@PathVariable int id,Questions question,@RequestParam(name="image") MultipartFile file) {
+
         if(file.getSize() != 0) question.setQuestion_photo(service.inputImageToBytes(file));
         question.setAnswers(new String[]{service.convertToStringLine(question.getAnswers())});
         question.setCorrect_answers(new String[]{service.convertToStringLine(question.getCorrect_answers())});

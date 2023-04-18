@@ -77,8 +77,11 @@ height: 100vh;
                                         <a class="nav-link" href="/seeQuestions">All questions</a>
                                     </li>
 
-                                    <li class="nav-item" th:if="${user.role == 'admin'}">
-                                        <a class="nav-link" href="/admin">Admin profile</a>
+                                    <li class="nav-item" th:if="${role == 'admin'}">
+                                        <a class="nav-link" href="/user">Admin profile</a>
+                                    </li>
+                                    <li class="nav-item" th:if="${role == 'admin'}">
+                                        <a class="nav-link" href="/admin">Admin dashboard</a>
                                     </li>
                                     <li class="nav-item" th:if="${user.role == 'user'}">
                                         <a class="nav-link" href="/user">User profile</a>

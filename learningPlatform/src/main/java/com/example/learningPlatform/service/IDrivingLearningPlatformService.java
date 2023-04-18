@@ -30,9 +30,7 @@ public interface IDrivingLearningPlatformService {
     double calculateAvgScoreRandom(int id);
     double calculateAvgScoreSigns(int id);
     double calculateAvgScorePriority(int id);
-    double calculateDifferenceBetweenTwoRandom(int id);
-    double calculateDifferenceBetweenTwoSigns(int id);
-    double calculateDifferenceBetweenTwoPriority(int id);
+    double calculateDifferenceBetweenTwo(int id, String topic);
     ArrayList<Tests> getTenTestByUserId(int id);
 
 }
