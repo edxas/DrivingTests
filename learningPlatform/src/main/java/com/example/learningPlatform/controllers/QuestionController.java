@@ -28,6 +28,7 @@ public class QuestionController {
     public String seeQuestions(Users user, Model model) throws IOException {
 
         user = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",user.getRole());
         model.addAttribute("user",user);
 
         LOG.info("Retrieving all questions");
@@ -40,13 +41,21 @@ public class QuestionController {
         return "question-list";
     }
     @GetMapping("/addNewQuestion")
-    public String createNewQuestion(Model model){
+    public String createNewQuestion(Users user,Model model){
+        user = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",user.getRole());
+        model.addAttribute("user",user);
+
         model.addAttribute("question", new Questions());
         model.addAttribute("topics", Topic.values());
         return "question-add";
     }
     @GetMapping(value = "/editQuestion/{id}")
-    public String updateForm(@PathVariable int id, Model model) {
+    public String updateForm(Users user,@PathVariable int id, Model model) {
+        user = drivingLearningPlatformService.getAuthorisedUser();
+        model.addAttribute("role",user.getRole());
+        model.addAttribute("user",user);
+
         Questions question = service.getQuestion(id);
         if(question == null) return"redirect:/seeQuestions";
         String image = service.getQuestionBase64String(question);
